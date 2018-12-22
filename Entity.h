@@ -19,14 +19,14 @@ public:
 	~Entity() { };
 	
 public:
-	sf::Texture m_texture;
-	sf::Sprite m_sprite;
-	sf::Vector2u m_size;
-	EntityType m_type;
-	bool m_enabled = true;
+	sf::Texture mTexture;
+	sf::Sprite mSprite;
+	sf::Vector2u mSize;
+	EntityType mType;
+	bool mEnabled = true;
 
 	// Enemy only
-	bool m_bLeftToRight = true;
-	int m_times = 0;
+	bool mBarrelLeftToRight = true;
+	int mTimes = 0;
 };
 

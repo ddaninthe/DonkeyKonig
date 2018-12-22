@@ -21,7 +21,7 @@ std::shared_ptr<Entity> EntityManager::GetPlayer()
 			continue;
 		}
 
-		if (entity->m_type == EntityType::player)
+		if (entity->mType == EntityType::player)
 		{
 			return entity;
 		}

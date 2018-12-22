@@ -52,9 +52,9 @@ Game::Game()
 			}
 
 			std::shared_ptr<Entity> se = std::make_shared<Entity>();
-			se->m_sprite = _Block[i][j];
-			se->m_type = EntityType::block;
-			se->m_size = _TextureBlock.getSize();
+			se->mSprite = _Block[i][j];
+			se->mType = EntityType::block;
+			se->mSize = _TextureBlock.getSize();
 			EntityManager::m_Entities.push_back(se);
 		}
 	}
@@ -69,31 +69,31 @@ Game::Game()
 		_Echelle[i].setPosition(100.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (i + 1) + _sizeBlock.y);
 
 		std::shared_ptr<Entity> se = std::make_shared<Entity>();
-		se->m_sprite = _Echelle[i];
-		se->m_type = EntityType::echelle;
-		se->m_size = _TextureEchelle.getSize();
+		se->mSprite = _Echelle[i];
+		se->mType = EntityType::echelle;
+		se->mSize = _TextureEchelle.getSize();
 		EntityManager::m_Entities.push_back(se);
 	}
 
 
 	// Draw Mario
 	shared_ptr<Entity> player = make_shared<Entity>();
-	player->m_texture = sf::Texture();
+	player->mTexture = sf::Texture();
 
 	sf::Sprite spriteMario;
 	sf::Vector2f posMario;
 
-	player->m_texture.loadFromFile("Media/Textures/mario_alt.png"); // Mario_small.png");
-	spriteMario.setTexture(player->m_texture);
+	player->mTexture.loadFromFile("Media/Textures/mario_alt.png"); // Mario_small.png");
+	spriteMario.setTexture(player->mTexture);
 
 	posMario.x = 100.f + 70.f;
-	posMario.y = BLOCK_SPACE * 5 - player->m_texture.getSize().y;
+	posMario.y = BLOCK_SPACE * 5 - player->mTexture.getSize().y;
 
 	spriteMario.setPosition(posMario);
 
-	player->m_sprite = spriteMario;
-	player->m_type = EntityType::player;
-	player->m_size = player->m_texture.getSize();
+	player->mSprite = spriteMario;
+	player->mType = EntityType::player;
+	player->mSize = player->mTexture.getSize();
 	EntityManager::m_Entities.push_back(player);
 
 
@@ -116,12 +116,11 @@ Game::Game()
 	_DonkeyKong.setPosition(posDk);
 
 	std::shared_ptr<Entity> dk = std::make_shared<Entity>();
-	dk->m_sprite = _DonkeyKong;
-	dk->m_type = EntityType::donkey;
-	dk->m_size = dkTexture.getSize();
+	dk->mSprite = _DonkeyKong;
+	dk->mType = EntityType::donkey;
+	dk->mSize = dkTexture.getSize();
 	EntityManager::m_Entities.push_back(dk);
 	
-
 
 	// Draw Lady
 	// TODO
@@ -188,7 +187,7 @@ void Game::processEvents()
 
 void Game::update(sf::Time elapsedTime)
 {
-	sf::Vector2f playerPosition = EntityManager::GetPlayer()->m_sprite.getPosition();
+	sf::Vector2f playerPosition = EntityManager::GetPlayer()->mSprite.getPosition();
 
 	sf::Vector2f movement(0.f, 0.f);
 	if (mIsMovingUp) {
@@ -218,17 +217,17 @@ void Game::update(sf::Time elapsedTime)
 
 	for (std::shared_ptr<Entity> entity : EntityManager::m_Entities)
 	{
-		if (entity->m_enabled == false)
+		if (entity->mEnabled == false)
 		{
 			continue;
 		}
 
-		if (entity->m_type != EntityType::player)
+		if (entity->mType != EntityType::player)
 		{
 			continue;
 		}
 
-		entity->m_sprite.move(movement * elapsedTime.asSeconds());
+		entity->mSprite.move(movement * elapsedTime.asSeconds());
 	}
 }
 
@@ -238,12 +237,12 @@ void Game::render()
 
 	for (std::shared_ptr<Entity> entity : EntityManager::m_Entities)
 	{
-		if (entity->m_enabled == false)
+		if (entity->mEnabled == false)
 		{
 			continue;
 		}
 
-		mWindow.draw(entity->m_sprite);
+		mWindow.draw(entity->mSprite);
 	}
 
 	mWindow.draw(mStatisticsText);

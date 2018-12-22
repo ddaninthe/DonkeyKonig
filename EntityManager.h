@@ -10,7 +10,7 @@ public:
 	~EntityManager();
 
 public:
-	static vector<shared_ptr<Entity>> m_Entities;
+	static vector<shared_ptr<Entity>> mEntities;
 	static shared_ptr<Entity> GetPlayer();
 	static shared_ptr<Entity> createEntity(const EntityType, float x, float y);
 };
