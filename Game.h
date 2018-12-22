@@ -54,5 +54,9 @@ private:
 	sf::Texture	_TextureWeapon;
 	sf::Sprite	_Weapon;
 	sf::Vector2u _sizeBlock;
+	sf::Vector2u _sizeMario;
+	sf::Sprite	_DonkeyKong;
+	sf::Texture	dkTexture;
+	sf::Vector2u _sizeDk;
 };
 
