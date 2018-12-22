@@ -4,6 +4,11 @@
 #define BLOCK_COUNT_X 8
 #define BLOCK_COUNT_Y 5
 #define BLOCK_SPACE 110.f
+#define BARREL_TEXTURE_COUNT 5
+#define MIN_X 160
+#define MAX_X 690
+
+using namespace std;
 
 class Game
 {
@@ -16,6 +21,8 @@ private:
 	void processEvents();
 	void update(sf::Time elapsedTime);
 	void render();
+	void addBarrel();
+
 
 	void updateStatistics(sf::Time elapsedTime);
 	void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
@@ -37,6 +44,8 @@ private:
 	bool mIsMovingRight;
 	bool mIsMovingLeft;
 
+	sf::Texture _TextureBarrel[BARREL_TEXTURE_COUNT];
+	vector<sf::Sprite> _Barrels;
 	sf::Texture	_TextureEchelle;
 	sf::Sprite	_Echelle[ECHELLE_COUNT];
 	sf::Texture	_TextureBlock;

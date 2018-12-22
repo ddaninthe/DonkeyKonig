@@ -34,6 +34,7 @@ Game::Game()
 			if (j == 0) {
 				// Upper plateform
 				_Block[i][j].setPosition(100.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (j + 1));
+				
 			} else if (j % 2 == 0) {
 				// Don't draw first block
 				if (i == 0 && j != BLOCK_COUNT_Y - 1) { 
@@ -54,7 +55,6 @@ Game::Game()
 			se->m_sprite = _Block[i][j];
 			se->m_type = EntityType::block;
 			se->m_size = _TextureBlock.getSize();
-			se->m_position = _Block[i][j].getPosition();
 			EntityManager::m_Entities.push_back(se);
 		}
 	}
@@ -72,7 +72,6 @@ Game::Game()
 		se->m_sprite = _Echelle[i];
 		se->m_type = EntityType::echelle;
 		se->m_size = _TextureEchelle.getSize();
-		se->m_position = _Echelle[i].getPosition();
 		EntityManager::m_Entities.push_back(se);
 	}
 
@@ -92,16 +91,23 @@ Game::Game()
 	player->m_sprite = mPlayer;
 	player->m_type = EntityType::player;
 	player->m_size = mTexture.getSize();
-	player->m_position = mPlayer.getPosition();
 	EntityManager::m_Entities.push_back(player);
 
 
 	// Draw Donkey Kong	
 	// TODO
 
+
 	// Draw Lady
 	// TODO
 
+
+	// Initialize barrels
+	_TextureBarrel[0].loadFromFile("Media/Textures/barrel_front.png");
+	for (int i = 1; i < 5; i++) {
+		_TextureBarrel[i].loadFromFile("Media/Textures/barrel_rolling_" + to_string(i) + ".png");
+	}
+	
 
 	// Draw Statistic Font 
 
@@ -157,15 +163,33 @@ void Game::processEvents()
 
 void Game::update(sf::Time elapsedTime)
 {
+	sf::Vector2f playerPosition = EntityManager::GetPlayer()->m_sprite.getPosition();
+
 	sf::Vector2f movement(0.f, 0.f);
-	if (mIsMovingUp)
+	if (mIsMovingUp) {
 		movement.y -= PlayerSpeed;
-	if (mIsMovingDown)
+	}
+	if (mIsMovingDown) {
 		movement.y += PlayerSpeed;
-	if (mIsMovingLeft)
-		movement.x -= PlayerSpeed;
-	if (mIsMovingRight)
-		movement.x += PlayerSpeed;
+	}
+	if (mIsMovingLeft) {
+		// Avoid exiting from screen
+		if (playerPosition.x < MIN_X) {
+			return;
+		}
+		else {
+			movement.x -= PlayerSpeed;
+		}
+	}
+	if (mIsMovingRight) {
+		// Avoid exiting from screen
+		if (playerPosition.x > MAX_X) {
+			return;
+		}
+		else {
+			movement.x += PlayerSpeed;
+		}
+	}
 
 	for (std::shared_ptr<Entity> entity : EntityManager::m_Entities)
 	{
@@ -239,5 +263,16 @@ void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
 
 	if (key == sf::Keyboard::Space)
 	{
+
 	}
+}
+
+void Game::addBarrel() {
+	// TODO
+	/*sf::Sprite sprite;
+	sprite.setTexture(_TextureBarrel[1]);
+	//sprite.setPosition();
+
+
+	_Barrels.push_back(sprite);*/
 }
