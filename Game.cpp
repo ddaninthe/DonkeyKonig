@@ -8,8 +8,6 @@ const sf::Time Game::TimePerFrame = sf::seconds(1.f / 60.f);
 
 Game::Game()
 	: mWindow(sf::VideoMode(840, 600), "Donkey Kong 1981", sf::Style::Close)
-	, mTexture()
-	, mPlayer()
 	, mFont()
 	, mStatisticsText()
 	, mStatisticsUpdateTime()
@@ -20,6 +18,8 @@ Game::Game()
 	, mIsMovingLeft(false)
 {
 	mWindow.setFramerateLimit(160);
+
+	sf::Texture test;
 
 	// Draw blocks
 
@@ -77,25 +77,34 @@ Game::Game()
 
 
 	// Draw Mario
+	shared_ptr<Entity> player = make_shared<Entity>();
+	player->m_texture = sf::Texture();
 
-	mTexture.loadFromFile("Media/Textures/Mario_small_transparent.png"); // Mario_small.png");
-	_sizeMario = mTexture.getSize();
-	mPlayer.setTexture(mTexture);
+	sf::Sprite spriteMario;
 	sf::Vector2f posMario;
+
+	player->m_texture.loadFromFile("Media/Textures/mario_alt.png"); // Mario_small.png");
+	spriteMario.setTexture(player->m_texture);
+
 	posMario.x = 100.f + 70.f;
-	posMario.y = BLOCK_SPACE * 5 - _sizeMario.y;
+	posMario.y = BLOCK_SPACE * 5 - player->m_texture.getSize().y;
 
-	mPlayer.setPosition(posMario);
+	spriteMario.setPosition(posMario);
 
-	std::shared_ptr<Entity> player = std::make_shared<Entity>();
-	player->m_sprite = mPlayer;
+	player->m_sprite = spriteMario;
 	player->m_type = EntityType::player;
-	player->m_size = mTexture.getSize();
+	player->m_size = player->m_texture.getSize();
 	EntityManager::m_Entities.push_back(player);
 
 
-	// Draw Donkey Kong	
-	// TODO
+	// Draw Donkey Kong
+	_TextureDonkey[0].loadFromFile("Media/Textures/dk.png");
+	_TextureDonkey[1].loadFromFile("Media/Textures/dk_barrel.png");
+	_TextureDonkey[2].loadFromFile("Media/Textures/dk_throw_left.png");
+	_TextureDonkey[3].loadFromFile("Media/Textures/dk_throw_right.png");
+	_TextureDonkey[4].loadFromFile("Media/Textures/dk_happy_1.png");
+	_TextureDonkey[5].loadFromFile("Media/Textures/dk_happy_2.png");
+	_TextureDonkey[6].loadFromFile("Media/Textures/dk_loss.png");
 
 
 	// Draw Lady

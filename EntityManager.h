@@ -1,6 +1,8 @@
 #pragma once
 #include "Entity.h"
 
+using namespace std;
+
 class EntityManager
 {
 public:
@@ -8,7 +10,8 @@ public:
 	~EntityManager();
 
 public:
-	static std::vector<std::shared_ptr<Entity>> m_Entities;
-	static std::shared_ptr<Entity> GetPlayer();
+	static vector<shared_ptr<Entity>> m_Entities;
+	static shared_ptr<Entity> GetPlayer();
+	static shared_ptr<Entity> createEntity(const EntityType, float x, float y);
 };
 

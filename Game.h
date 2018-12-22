@@ -5,6 +5,7 @@
 #define BLOCK_COUNT_Y 5
 #define BLOCK_SPACE 110.f
 #define BARREL_TEXTURE_COUNT 5
+#define TEXTURE_DONKEY_COUNT 7
 #define MIN_X 160
 #define MAX_X 690
 
@@ -32,8 +33,6 @@ private:
 	static const sf::Time	TimePerFrame;
 
 	sf::RenderWindow		mWindow;
-	sf::Texture	mTexture;
-	sf::Sprite	mPlayer;
 	sf::Font	mFont;
 	sf::Text	mStatisticsText;
 	sf::Time	mStatisticsUpdateTime;
@@ -44,6 +43,8 @@ private:
 	bool mIsMovingRight;
 	bool mIsMovingLeft;
 
+	sf::Texture _TextureDonkey[TEXTURE_DONKEY_COUNT];
+	sf::Sprite _Donkey;
 	sf::Texture _TextureBarrel[BARREL_TEXTURE_COUNT];
 	vector<sf::Sprite> _Barrels;
 	sf::Texture	_TextureEchelle;
@@ -53,6 +54,5 @@ private:
 	sf::Texture	_TextureWeapon;
 	sf::Sprite	_Weapon;
 	sf::Vector2u _sizeBlock;
-	sf::Vector2u _sizeMario;
 };
 

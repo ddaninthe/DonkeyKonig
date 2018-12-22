@@ -17,8 +17,9 @@ class Entity
 public:
 	Entity() { };
 	~Entity() { };
-
+	
 public:
+	sf::Texture m_texture;
 	sf::Sprite m_sprite;
 	sf::Vector2u m_size;
 	EntityType m_type;
