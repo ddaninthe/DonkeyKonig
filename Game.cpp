@@ -78,7 +78,7 @@ Game::Game()
 
 	// Draw Mario
 
-	mTexture.loadFromFile("Media/Textures/Mario_small_transparent.png"); // Mario_small.png");
+	mTexture.loadFromFile("Media/Textures/Mario_alt.png"); // Mario_small.png");
 	_sizeMario = mTexture.getSize();
 	mPlayer.setTexture(mTexture);
 	sf::Vector2f posMario;
@@ -96,6 +96,22 @@ Game::Game()
 
 	// Draw Donkey Kong	
 	// TODO
+
+	dkTexture.loadFromFile("Media/Textures/dk.png");;
+	_sizeDk = dkTexture.getSize();
+	_DonkeyKong.setTexture(dkTexture);
+	sf::Vector2f posDk;
+	posDk.x = 580.f;
+	posDk.y = BLOCK_SPACE * 1 - _sizeDk.y;
+
+	_DonkeyKong.setPosition(posDk);
+
+	std::shared_ptr<Entity> dk = std::make_shared<Entity>();
+	dk->m_sprite = _DonkeyKong;
+	dk->m_type = EntityType::donkey;
+	dk->m_size = dkTexture.getSize();
+	EntityManager::m_Entities.push_back(dk);
+	
 
 
 	// Draw Lady
@@ -269,10 +285,10 @@ void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
 
 void Game::addBarrel() {
 	// TODO
-	/*sf::Sprite sprite;
+	/*
+	sf::Sprite sprite;
 	sprite.setTexture(_TextureBarrel[1]);
-	//sprite.setPosition();
-
+	sprite.setPosition(100.f, 100.f);
 
 	_Barrels.push_back(sprite);*/
 }
