@@ -77,7 +77,6 @@ Game::Game()
 	}
 
 
-
 	// Draw Mario
 
 	mTexture.loadFromFile("Media/Textures/Mario_small_transparent.png"); // Mario_small.png");
@@ -95,6 +94,14 @@ Game::Game()
 	player->m_size = mTexture.getSize();
 	player->m_position = mPlayer.getPosition();
 	EntityManager::m_Entities.push_back(player);
+
+
+	// Draw Donkey Kong	
+	// TODO
+
+	// Draw Lady
+	// TODO
+
 
 	// Draw Statistic Font 
 
