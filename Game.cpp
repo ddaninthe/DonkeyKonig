@@ -55,7 +55,7 @@ Game::Game()
 			se->mSprite = _Block[i][j];
 			se->mType = EntityType::block;
 			se->mSize = _TextureBlock.getSize();
-			EntityManager::m_Entities.push_back(se);
+			EntityManager::mEntities.push_back(se);
 		}
 	}
 
@@ -72,7 +72,7 @@ Game::Game()
 		se->mSprite = _Echelle[i];
 		se->mType = EntityType::echelle;
 		se->mSize = _TextureEchelle.getSize();
-		EntityManager::m_Entities.push_back(se);
+		EntityManager::mEntities.push_back(se);
 	}
 
 
@@ -94,7 +94,7 @@ Game::Game()
 	player->mSprite = spriteMario;
 	player->mType = EntityType::player;
 	player->mSize = player->mTexture.getSize();
-	EntityManager::m_Entities.push_back(player);
+	EntityManager::mEntities.push_back(player);
 
 
 	// Draw Donkey Kong
@@ -119,7 +119,7 @@ Game::Game()
 	dk->mSprite = _DonkeyKong;
 	dk->mType = EntityType::donkey;
 	dk->mSize = dkTexture.getSize();
-	EntityManager::m_Entities.push_back(dk);
+	EntityManager::mEntities.push_back(dk);
 	
 
 	// Draw Lady
@@ -215,7 +215,7 @@ void Game::update(sf::Time elapsedTime)
 		}
 	}
 
-	for (std::shared_ptr<Entity> entity : EntityManager::m_Entities)
+	for (std::shared_ptr<Entity> entity : EntityManager::mEntities)
 	{
 		if (entity->mEnabled == false)
 		{
@@ -235,7 +235,7 @@ void Game::render()
 {
 	mWindow.clear();
 
-	for (std::shared_ptr<Entity> entity : EntityManager::m_Entities)
+	for (std::shared_ptr<Entity> entity : EntityManager::mEntities)
 	{
 		if (entity->mEnabled == false)
 		{
