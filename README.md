@@ -1,21 +1,23 @@
 
 modif and add to do :
 
--modif pixel to scalable
+- modif pixel to scalable
 
--add gravity
+- add gravity
 
--add barrel 
+- add barrel 
 
--add DK
+- add DK
 
--add Princess
+- add Princess
 
--add point systeme
+- add point systeme
 
--add life / game over / replay 
+- add life / game over / replay 
 
--add cooin
+- add cooin
+
+- add cheat code
 
 
 Optional:
