@@ -70,20 +70,20 @@ Game::Game()
 
 		std::shared_ptr<Entity> se = std::make_shared<Entity>();
 		se->mSprite = _Echelle[i];
-		se->mType = EntityType::echelle;
+		se->mType = EntityType::ladder;
 		se->mSize = _TextureEchelle.getSize();
 		EntityManager::mEntities.push_back(se);
 	}
 
 
 	// Draw Mario
-	shared_ptr<Entity> player = make_shared<Entity>();
+	/*shared_ptr<Entity> player = make_shared<Entity>();
 	player->mTexture = sf::Texture();
 
 	sf::Sprite spriteMario;
 	sf::Vector2f posMario;
 
-	player->mTexture.loadFromFile("Media/Textures/mario_alt.png"); // Mario_small.png");
+	player->mTexture.loadFromFile("Media/Textures/mario_r_1.png");
 	spriteMario.setTexture(player->mTexture);
 
 	posMario.x = 100.f + 70.f;
@@ -94,7 +94,9 @@ Game::Game()
 	player->mSprite = spriteMario;
 	player->mType = EntityType::player;
 	player->mSize = player->mTexture.getSize();
-	EntityManager::mEntities.push_back(player);
+	EntityManager::mEntities.push_back(player);*/
+
+	EntityManager::addEntity(EntityType::player);
 
 
 	// Draw Donkey Kong
@@ -187,7 +189,7 @@ void Game::processEvents()
 
 void Game::update(sf::Time elapsedTime)
 {
-	sf::Vector2f playerPosition = EntityManager::GetPlayer()->mSprite.getPosition();
+	sf::Vector2f playerPosition = EntityManager::getPlayer()->mSprite.getPosition();
 
 	sf::Vector2f movement(0.f, 0.f);
 	if (mIsMovingUp) {

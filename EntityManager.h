@@ -1,5 +1,6 @@
 #pragma once
-#include "Entity.h"
+#include "Mario.h"
+#include "Game.h"
 
 using namespace std;
 
@@ -11,7 +12,7 @@ public:
 
 public:
 	static vector<shared_ptr<Entity>> mEntities;
-	static shared_ptr<Entity> GetPlayer();
-	static shared_ptr<Entity> createEntity(const EntityType, float x, float y);
+	static shared_ptr<Entity> getPlayer();
+	static void addEntity(const EntityType, sf::Vector2f position = sf::Vector2f(0, 0));
 };
 

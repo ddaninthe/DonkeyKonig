@@ -1,7 +1,9 @@
 #include "pch.h"
 #include "EntityManager.h"
 
-std::vector<std::shared_ptr<Entity>> EntityManager::m_Entities;
+using namespace std;
+
+vector<shared_ptr<Entity>> EntityManager::mEntities;
 
 EntityManager::EntityManager()
 {
@@ -12,11 +14,11 @@ EntityManager::~EntityManager()
 {
 }
 
-std::shared_ptr<Entity> EntityManager::GetPlayer()
+shared_ptr<Entity> EntityManager::getPlayer()
 {
-	for (std::shared_ptr<Entity> entity : EntityManager::m_Entities)
+	for (shared_ptr<Entity> entity : EntityManager::mEntities)
 	{
-		if (entity->m_enabled == false)
+		if (entity->mEnabled == false)
 		{
 			continue;
 		}
@@ -28,4 +30,34 @@ std::shared_ptr<Entity> EntityManager::GetPlayer()
 	}
 
 	return nullptr;
+}
+
+void EntityManager::addEntity(const EntityType type, sf::Vector2f position) 
+{
+	sf::Texture texture;
+
+	cout << type << endl;
+
+	switch (type) {
+	case EntityType::barrel : 
+		break;
+	case EntityType::block :
+		break;
+	case EntityType::donkey :
+		break;
+	case EntityType::ladder :
+		break;
+	case EntityType::lady :
+		break;
+	case EntityType::player: {
+		texture.loadFromFile("Media/Textures/mario_r_1.png");
+		position.x = 100.f + 70.f;
+		position.y = BLOCK_SPACE * 5 - texture.getSize().y;
+		shared_ptr<Entity> ptr = make_shared<Mario>(texture, position);
+		EntityManager::mEntities.push_back(ptr);
+		break;
+	}
+	default : 
+		throw invalid_argument("Bad argument : " + type);
+	}
 }
