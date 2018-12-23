@@ -97,6 +97,7 @@ Game::Game()
 	EntityManager::mEntities.push_back(player);*/
 
 	EntityManager::addEntity(EntityType::player);
+	EntityManager::addEntity(EntityType::lady);
 
 
 	// Draw Donkey Kong
