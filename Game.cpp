@@ -23,8 +23,8 @@ Game::Game()
 
 	// Draw blocks
 
-	_TextureBlock.loadFromFile("Media/Textures/Block.png");
-	_sizeBlock = _TextureBlock.getSize();
+	//_TextureBlock.loadFromFile("Media/Textures/Block.png");
+	//_sizeBlock = _TextureBlock.getSize();
 
 	for (int i = 0; i < BLOCK_COUNT_X; i++)
 	{
@@ -62,18 +62,19 @@ Game::Game()
 
 	// Draw Echelles
 
-	_TextureEchelle.loadFromFile("Media/Textures/Echelle.png");
+	//_TextureEchelle.loadFromFile("Media/Textures/Ladder.png");
 
-	for (int i = 0; i < ECHELLE_COUNT; i++)
+	for (int i = 0; i < LADDER_COUNT; i++)
 	{
-		_Echelle[i].setTexture(_TextureEchelle);
-		_Echelle[i].setPosition(100.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (i + 1) + _sizeBlock.y);
+		//_Ladder[i].setTexture(_TextureEchelle);
+		_Ladder[i].setPosition(100.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (i + 1) + _sizeBlock.y);
 
-		std::shared_ptr<Entity> se = std::make_shared<Entity>();
-		se->mSprite = _Echelle[i];
+		/*std::shared_ptr<Entity> se = std::make_shared<Entity>();
+		se->mSprite = _Ladder[i];
 		se->mType = EntityType::ladder;
 		se->mSize = _TextureEchelle.getSize();
-		EntityManager::mEntities.push_back(se);
+		EntityManager::mEntities.push_back(se);*/
+		EntityManager::addEntity(EntityType::ladder, sf::Vector2f(_Ladder[i].getPosition()));
 	}
 
 

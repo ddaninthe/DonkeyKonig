@@ -42,7 +42,7 @@ void EntityManager::addEntity(const EntityType type, sf::Vector2f position)
 	case EntityType::barrel : 
 		break;
 	case EntityType::block: {
-		texture.loadFromFile("Media/Textures/Block.png");
+		texture.loadFromFile("Media/Textures/block.png");
 		shared_ptr<Entity> ptr = make_shared<Block>(texture, position);
 		EntityManager::mEntities.push_back(ptr);
 		break;
@@ -55,8 +55,12 @@ void EntityManager::addEntity(const EntityType type, sf::Vector2f position)
 		EntityManager::mEntities.push_back(ptr);
 		break;
 	}
-	case EntityType::ladder :
+	case EntityType::ladder: {
+		texture.loadFromFile("Media/Textures/ladder.png");
+		shared_ptr<Entity> ptr = make_shared<Ladder>(texture, position);
+		EntityManager::mEntities.push_back(ptr);
 		break;
+	}
 	case EntityType::lady: {
 		texture.loadFromFile("Media/Textures/lade_l_help.png");
 		position.x = 100.f + 560.f;
