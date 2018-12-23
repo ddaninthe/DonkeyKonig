@@ -14,7 +14,8 @@ EntityManager::~EntityManager()
 {
 }
 
-shared_ptr<Entity> EntityManager::getPlayer()
+// Get first occurence of entityType
+shared_ptr<Entity> EntityManager::getFirstEntity(const EntityType type)
 {
 	for (shared_ptr<Entity> entity : EntityManager::mEntities)
 	{
@@ -23,7 +24,7 @@ shared_ptr<Entity> EntityManager::getPlayer()
 			continue;
 		}
 
-		if (entity->mType == EntityType::player)
+		if (entity->mType == type)
 		{
 			return entity;
 		}

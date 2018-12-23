@@ -10,3 +10,7 @@ Mario::Mario(const sf::Texture& texture, sf::Vector2f position) : Entity(texture
 Mario::~Mario()
 {
 }
+
+bool Mario::checkBlocksCollision() {
+	return false;
+}

@@ -9,6 +9,8 @@
 #define MIN_X 160
 #define MAX_X 690
 
+#include "Entity.h"
+
 using namespace std;
 
 class Game
@@ -23,6 +25,8 @@ private:
 	void update(sf::Time elapsedTime);
 	void render();
 	void addBarrel();
+
+	bool checkCollision(const Entity e1, const Entity e2);
 
 	void updateStatistics(sf::Time elapsedTime);
 	void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);

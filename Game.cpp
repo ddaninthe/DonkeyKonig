@@ -148,7 +148,7 @@ void Game::processEvents()
 
 void Game::update(sf::Time elapsedTime)
 {
-	sf::Vector2f playerPosition = EntityManager::getPlayer()->mSprite.getPosition();
+	sf::Vector2f playerPosition = EntityManager::getFirstEntity(EntityType::player)->mSprite.getPosition();
 
 	sf::Vector2f movement(0.f, 0.f);
 	if (mIsMovingUp) {
@@ -250,6 +250,13 @@ void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
 	{
 
 	}
+}
+
+bool Game::checkCollision(const Entity e1, const Entity e2) {
+	sf::FloatRect areaE1 = e1.mSprite.getGlobalBounds();
+	sf::FloatRect areaE2 = e2.mSprite.getGlobalBounds();
+
+	return areaE1.intersects(areaE2);
 }
 
 void Game::addBarrel() {

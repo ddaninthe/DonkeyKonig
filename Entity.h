@@ -20,6 +20,7 @@ public:
 	virtual ~Entity() { };
 	
 public:
+
 	sf::Texture mTexture;
 	sf::Sprite mSprite;
 	sf::Vector2u mSize;

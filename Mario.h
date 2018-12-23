@@ -7,5 +7,8 @@ class Mario :
 public:
 	Mario(const sf::Texture&, sf::Vector2f);
 	~Mario();
+
+public: 
+	bool checkBlocksCollision();
 };
 
