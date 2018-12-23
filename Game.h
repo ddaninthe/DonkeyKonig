@@ -24,7 +24,6 @@ private:
 	void render();
 	void addBarrel();
 
-
 	void updateStatistics(sf::Time elapsedTime);
 	void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
 
