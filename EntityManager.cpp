@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "EntityManager.h"
 
-std::vector<std::shared_ptr<Entity>> EntityManager::m_Entities;
+std::vector<std::shared_ptr<Entity>> EntityManager::mEntities;
 
 EntityManager::EntityManager()
 {
@@ -14,9 +14,9 @@ EntityManager::~EntityManager()
 
 std::shared_ptr<Entity> EntityManager::GetPlayer()
 {
-	for (std::shared_ptr<Entity> entity : EntityManager::m_Entities)
+	for (std::shared_ptr<Entity> entity : EntityManager::mEntities)
 	{
-		if (entity->m_enabled == false)
+		if (entity->mEnabled == false)
 		{
 			continue;
 		}
