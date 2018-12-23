@@ -46,20 +46,13 @@ private:
 	bool mIsMovingRight;
 	bool mIsMovingLeft;
 
-	sf::Texture _TextureDonkey[TEXTURE_DONKEY_COUNT];
-	sf::Sprite _Donkey;
 	sf::Texture _TextureBarrel[BARREL_TEXTURE_COUNT];
 	vector<sf::Sprite> _Barrels;
-	sf::Texture	_TextureEchelle;
-	sf::Sprite	_Ladder[LADDER_COUNT];
 	sf::Texture	_TextureBlock;
 	sf::Sprite	_Block[BLOCK_COUNT_X][BLOCK_COUNT_Y];
 	sf::Texture	_TextureWeapon;
 	sf::Sprite	_Weapon;
 	sf::Vector2u _sizeBlock;
-	sf::Vector2u _sizeMario;
-	sf::Sprite	_DonkeyKong;
-	sf::Texture	dkTexture;
 	sf::Vector2u _sizeDk;
 };
 

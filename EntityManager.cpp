@@ -3,7 +3,11 @@
 
 using namespace std;
 
-vector<shared_ptr<Entity>> EntityManager::mEntities;
+shared_ptr<Mario> EntityManager::mPlayer;
+shared_ptr<Donkey> EntityManager::mDonkey;
+shared_ptr<Lady> EntityManager::mLady;
+vector<shared_ptr<Block>> EntityManager::mBlocks;
+vector<shared_ptr<Ladder>> EntityManager::mLadders;
 
 EntityManager::EntityManager()
 {
@@ -14,23 +18,52 @@ EntityManager::~EntityManager()
 {
 }
 
-// Get first occurence of entityType
-shared_ptr<Entity> EntityManager::getFirstEntity(const EntityType type)
-{
-	for (shared_ptr<Entity> entity : EntityManager::mEntities)
+void EntityManager::draw(sf::RenderWindow& window) {
+	window.draw(mPlayer->mSprite);
+	window.draw(mLady->mSprite);
+	window.draw(mDonkey->mSprite);
+
+	for (std::shared_ptr<Block> entity : EntityManager::mBlocks)
 	{
 		if (entity->mEnabled == false)
 		{
 			continue;
 		}
 
-		if (entity->mType == type)
-		{
-			return entity;
-		}
+		window.draw(entity->mSprite);
 	}
 
-	return nullptr;
+	for (std::shared_ptr<Ladder> entity : EntityManager::mLadders)
+	{
+		if (entity->mEnabled == false)
+		{
+			continue;
+		}
+
+		window.draw(entity->mSprite);
+	}
+}
+
+shared_ptr<Mario> EntityManager::getPlayer() {
+	return EntityManager::mPlayer;
+}
+
+shared_ptr<Lady> EntityManager::getLady() {
+	return EntityManager::mLady;
+}
+
+shared_ptr<Donkey> EntityManager::getDonkey() {
+	return EntityManager::mDonkey;
+}
+
+vector<shared_ptr<Block>> EntityManager::getBlocks()
+{
+	return EntityManager::mBlocks;
+}
+
+vector<shared_ptr<Ladder>> EntityManager::getLadders()
+{
+	return EntityManager::mLadders;
 }
 
 void EntityManager::addEntity(const EntityType type, sf::Vector2f position) 
@@ -44,38 +77,38 @@ void EntityManager::addEntity(const EntityType type, sf::Vector2f position)
 		break;
 	case EntityType::block: {
 		texture.loadFromFile("Media/Textures/block.png");
-		shared_ptr<Entity> ptr = make_shared<Block>(texture, position);
-		EntityManager::mEntities.push_back(ptr);
+		shared_ptr<Block> ptr = make_shared<Block>(texture, position);
+		EntityManager::mBlocks.push_back(ptr);
 		break;
 	}
 	case EntityType::donkey: {
 		texture.loadFromFile("Media/Textures/dk.png");
 		position.x = 560.f;
 		position.y = BLOCK_SPACE * 1 - texture.getSize().y;
-		shared_ptr<Entity> ptr = make_shared<Donkey>(texture, position);
-		EntityManager::mEntities.push_back(ptr);
+		shared_ptr<Donkey> ptr = make_shared<Donkey>(texture, position);
+		EntityManager::mDonkey = ptr;
 		break;
 	}
 	case EntityType::ladder: {
 		texture.loadFromFile("Media/Textures/ladder.png");
-		shared_ptr<Entity> ptr = make_shared<Ladder>(texture, position);
-		EntityManager::mEntities.push_back(ptr);
+		shared_ptr<Ladder> ptr = make_shared<Ladder>(texture, position);
+		EntityManager::mLadders.push_back(ptr);
 		break;
 	}
 	case EntityType::lady: {
 		texture.loadFromFile("Media/Textures/lade_l_help.png");
 		position.x = 100.f + 560.f;
 		position.y = BLOCK_SPACE * 1 - texture.getSize().y;
-		shared_ptr<Entity> ptr = make_shared<Lady>(texture, position);
-		EntityManager::mEntities.push_back(ptr);
+		shared_ptr<Lady> ptr = make_shared<Lady>(texture, position);
+		EntityManager::mLady = ptr;
 		break;
 	}
 	case EntityType::player: {
 		texture.loadFromFile("Media/Textures/mario_r_1.png");
 		position.x = 100.f + 70.f;
 		position.y = BLOCK_SPACE * 5 - texture.getSize().y;
-		shared_ptr<Entity> ptr = make_shared<Mario>(texture, position);
-		EntityManager::mEntities.push_back(ptr);
+		shared_ptr<Mario> ptr = make_shared<Mario>(texture, position);
+		EntityManager::mPlayer = ptr;
 		break;
 	}
 	default : 

@@ -23,8 +23,8 @@ Game::Game()
 
 	// Draw blocks
 
-	//_TextureBlock.loadFromFile("Media/Textures/Block.png");
-	//_sizeBlock = _TextureBlock.getSize();
+	_TextureBlock.loadFromFile("Media/Textures/Block.png");
+	_sizeBlock = _TextureBlock.getSize();
 
 	for (int i = 0; i < BLOCK_COUNT_X; i++)
 	{
@@ -51,30 +51,16 @@ Game::Game()
 				_Block[i][j].setPosition(100.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (j + 1) + i);
 			}
 
-			/*std::shared_ptr<Entity> se = std::make_shared<Entity>();
-			se->mSprite = _Block[i][j];
-			se->mType = EntityType::block;
-			se->mSize = _TextureBlock.getSize();
-			EntityManager::mEntities.push_back(se);*/
 			EntityManager::addEntity(EntityType::block, sf::Vector2f(_Block[i][j].getPosition()));
 		}
 	}
 
 	// Draw Echelles
 
-	//_TextureEchelle.loadFromFile("Media/Textures/Ladder.png");
-
 	for (int i = 0; i < LADDER_COUNT; i++)
 	{
-		//_Ladder[i].setTexture(_TextureEchelle);
-		_Ladder[i].setPosition(100.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (i + 1) + _sizeBlock.y);
-
-		/*std::shared_ptr<Entity> se = std::make_shared<Entity>();
-		se->mSprite = _Ladder[i];
-		se->mType = EntityType::ladder;
-		se->mSize = _TextureEchelle.getSize();
-		EntityManager::mEntities.push_back(se);*/
-		EntityManager::addEntity(EntityType::ladder, sf::Vector2f(_Ladder[i].getPosition()));
+		sf::Vector2f position(100.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (i + 1) + _sizeBlock.y);
+		EntityManager::addEntity(EntityType::ladder, position);
 	}
 
 	// Draw Mario
@@ -149,7 +135,8 @@ void Game::processEvents()
 
 void Game::update(sf::Time elapsedTime)
 {
-	sf::Vector2f playerPosition = EntityManager::getFirstEntity(EntityType::player)->mSprite.getPosition();
+	shared_ptr<Mario> player = EntityManager::getPlayer();
+	sf::Vector2f playerPosition = player->mSprite.getPosition();
 
 	sf::Vector2f movement(0.f, 0.f);
 	if (mIsMovingUp) {
@@ -177,35 +164,15 @@ void Game::update(sf::Time elapsedTime)
 		}
 	}
 
-	for (std::shared_ptr<Entity> entity : EntityManager::mEntities)
-	{
-		if (entity->mEnabled == false)
-		{
-			continue;
-		}
 
-		if (entity->mType != EntityType::player)
-		{
-			continue;
-		}
-
-		entity->mSprite.move(movement * elapsedTime.asSeconds());
-	}
+	player->mSprite.move(movement * elapsedTime.asSeconds());
 }
 
 void Game::render()
 {
 	mWindow.clear();
 
-	for (std::shared_ptr<Entity> entity : EntityManager::mEntities)
-	{
-		if (entity->mEnabled == false)
-		{
-			continue;
-		}
-
-		mWindow.draw(entity->mSprite);
-	}
+	EntityManager::draw(mWindow);
 
 	mWindow.draw(mStatisticsText);
 	mWindow.display();

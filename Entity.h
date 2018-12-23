@@ -32,4 +32,3 @@ public:
 	bool mBarrelLeftToRight = true;
 	int mTimes = 0;
 };
-
