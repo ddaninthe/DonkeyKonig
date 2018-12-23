@@ -20,6 +20,7 @@ public:
 	virtual ~Entity() { };
 	
 public:
+	static bool checkCollision(const Entity e1, const Entity e2);
 
 	sf::Texture mTexture;
 	sf::Sprite mSprite;

@@ -70,8 +70,6 @@ void EntityManager::addEntity(const EntityType type, sf::Vector2f position)
 {
 	sf::Texture texture;
 
-	cout << type << endl;
-
 	switch (type) {
 	case EntityType::barrel : 
 		break;

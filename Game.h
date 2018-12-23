@@ -6,8 +6,8 @@
 #define BLOCK_SPACE 110.f
 #define BARREL_TEXTURE_COUNT 5
 #define TEXTURE_DONKEY_COUNT 7
-#define MIN_X 160
-#define MAX_X 690
+#define MIN_X 165
+#define MAX_X 700
 
 #include "Entity.h"
 
@@ -25,8 +25,6 @@ private:
 	void update(sf::Time elapsedTime);
 	void render();
 	void addBarrel();
-
-	bool checkCollision(const Entity e1, const Entity e2);
 
 	void updateStatistics(sf::Time elapsedTime);
 	void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);

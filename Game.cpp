@@ -143,6 +143,10 @@ void Game::update(sf::Time elapsedTime)
 		movement.y -= PlayerSpeed;
 	}
 	if (mIsMovingDown) {
+		// Can't go through bottom block
+		if (player->isOnBlock()) {
+			return;
+		}
 		movement.y += PlayerSpeed;
 	}
 	if (mIsMovingLeft) {
@@ -163,8 +167,6 @@ void Game::update(sf::Time elapsedTime)
 			movement.x += PlayerSpeed;
 		}
 	}
-
-
 	player->mSprite.move(movement * elapsedTime.asSeconds());
 }
 
@@ -218,13 +220,6 @@ void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
 	{
 
 	}
-}
-
-bool Game::checkCollision(const Entity e1, const Entity e2) {
-	sf::FloatRect areaE1 = e1.mSprite.getGlobalBounds();
-	sf::FloatRect areaE2 = e2.mSprite.getGlobalBounds();
-
-	return areaE1.intersects(areaE2);
 }
 
 void Game::addBarrel() {

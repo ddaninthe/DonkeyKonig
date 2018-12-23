@@ -8,3 +8,10 @@ Entity::Entity(const sf::Texture& texture, sf::Vector2f position, const EntityTy
 	mSize = mTexture.getSize();
 	mType = type;
 }
+
+bool Entity::checkCollision(const Entity e1, const Entity e2) {
+		sf::FloatRect areaE1 = e1.mSprite.getGlobalBounds();
+	sf::FloatRect areaE2 = e2.mSprite.getGlobalBounds();
+
+	return areaE1.intersects(areaE2);
+}
