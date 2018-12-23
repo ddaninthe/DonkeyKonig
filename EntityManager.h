@@ -3,6 +3,7 @@
 #include "Lady.h"
 #include "Donkey.h"
 #include "Block.h"
+#include "Ladder.h"
 #include "Game.h"
 
 using namespace std;
