@@ -51,11 +51,12 @@ Game::Game()
 				_Block[i][j].setPosition(100.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (j + 1) + i);
 			}
 
-			std::shared_ptr<Entity> se = std::make_shared<Entity>();
+			/*std::shared_ptr<Entity> se = std::make_shared<Entity>();
 			se->mSprite = _Block[i][j];
 			se->mType = EntityType::block;
 			se->mSize = _TextureBlock.getSize();
-			EntityManager::mEntities.push_back(se);
+			EntityManager::mEntities.push_back(se);*/
+			EntityManager::addEntity(EntityType::block, sf::Vector2f(_Block[i][j].getPosition()));
 		}
 	}
 

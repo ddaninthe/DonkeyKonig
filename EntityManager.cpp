@@ -41,8 +41,12 @@ void EntityManager::addEntity(const EntityType type, sf::Vector2f position)
 	switch (type) {
 	case EntityType::barrel : 
 		break;
-	case EntityType::block :
+	case EntityType::block: {
+		texture.loadFromFile("Media/Textures/Block.png");
+		shared_ptr<Entity> ptr = make_shared<Block>(texture, position);
+		EntityManager::mEntities.push_back(ptr);
 		break;
+	}
 	case EntityType::donkey: {
 		texture.loadFromFile("Media/Textures/dk.png");
 		position.x = 560.f;

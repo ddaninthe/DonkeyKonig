@@ -2,6 +2,7 @@
 #include "Mario.h"
 #include "Lady.h"
 #include "Donkey.h"
+#include "Block.h"
 #include "Game.h"
 
 using namespace std;
