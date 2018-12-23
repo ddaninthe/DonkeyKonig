@@ -77,60 +77,15 @@ Game::Game()
 		EntityManager::addEntity(EntityType::ladder, sf::Vector2f(_Ladder[i].getPosition()));
 	}
 
-
 	// Draw Mario
-	/*shared_ptr<Entity> player = make_shared<Entity>();
-	player->mTexture = sf::Texture();
-
-	sf::Sprite spriteMario;
-	sf::Vector2f posMario;
-
-	player->mTexture.loadFromFile("Media/Textures/mario_r_1.png");
-	spriteMario.setTexture(player->mTexture);
-
-	posMario.x = 100.f + 70.f;
-	posMario.y = BLOCK_SPACE * 5 - player->mTexture.getSize().y;
-
-	spriteMario.setPosition(posMario);
-
-	player->mSprite = spriteMario;
-	player->mType = EntityType::player;
-	player->mSize = player->mTexture.getSize();
-	EntityManager::mEntities.push_back(player);*/
-
 	EntityManager::addEntity(EntityType::player);
+
+	// Draw Lady
 	EntityManager::addEntity(EntityType::lady);
 
 
 	// Draw Donkey Kong
-
 	EntityManager::addEntity(EntityType::donkey);
-	_TextureDonkey[0].loadFromFile("Media/Textures/dk.png");
-	_TextureDonkey[1].loadFromFile("Media/Textures/dk_throw_right.png");
-	_TextureDonkey[2].loadFromFile("Media/Textures/dk_barrel.png");
-	_TextureDonkey[3].loadFromFile("Media/Textures/dk_throw_left.png");
-	_TextureDonkey[4].loadFromFile("Media/Textures/dk_happy_1.png");
-	_TextureDonkey[5].loadFromFile("Media/Textures/dk_happy_2.png");
-	_TextureDonkey[6].loadFromFile("Media/Textures/dk_loss.png");
-	/*
-	dkTexture.loadFromFile("Media/Textures/dk.png");
-	_sizeDk = dkTexture.getSize();
-	_DonkeyKong.setTexture(dkTexture);
-	sf::Vector2f posDk;
-	posDk.x = 580.f;
-	posDk.y = BLOCK_SPACE * 1 - _sizeDk.y;
-
-	_DonkeyKong.setPosition(posDk);
-
-	std::shared_ptr<Entity> dk = std::make_shared<Entity>();
-	dk->mSprite = _DonkeyKong;
-	dk->mType = EntityType::donkey;
-	dk->mSize = dkTexture.getSize();
-	EntityManager::mEntities.push_back(dk);
-	*/
-
-	// Draw Lady
-	// TODO
 
 
 	// Initialize barrels
@@ -139,7 +94,7 @@ Game::Game()
 		_TextureBarrel[i].loadFromFile("Media/Textures/barrel_rolling_" + to_string(i) + ".png");
 	}
 	
-
+	
 	// Draw Statistic Font 
 
 	mFont.loadFromFile("Media/Sansation.ttf");
