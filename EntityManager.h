@@ -1,5 +1,6 @@
 #pragma once
 #include "Mario.h"
+#include "Donkey.h"
 #include "Game.h"
 
 using namespace std;

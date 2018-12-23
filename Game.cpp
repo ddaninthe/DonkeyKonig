@@ -100,15 +100,17 @@ Game::Game()
 
 
 	// Draw Donkey Kong
+
+	EntityManager::addEntity(EntityType::donkey);
 	_TextureDonkey[0].loadFromFile("Media/Textures/dk.png");
-	_TextureDonkey[1].loadFromFile("Media/Textures/dk_barrel.png");
-	_TextureDonkey[2].loadFromFile("Media/Textures/dk_throw_left.png");
-	_TextureDonkey[3].loadFromFile("Media/Textures/dk_throw_right.png");
+	_TextureDonkey[1].loadFromFile("Media/Textures/dk_throw_right.png");
+	_TextureDonkey[2].loadFromFile("Media/Textures/dk_barrel.png");
+	_TextureDonkey[3].loadFromFile("Media/Textures/dk_throw_left.png");
 	_TextureDonkey[4].loadFromFile("Media/Textures/dk_happy_1.png");
 	_TextureDonkey[5].loadFromFile("Media/Textures/dk_happy_2.png");
 	_TextureDonkey[6].loadFromFile("Media/Textures/dk_loss.png");
-
-	dkTexture.loadFromFile("Media/Textures/dk.png");;
+	/*
+	dkTexture.loadFromFile("Media/Textures/dk.png");
 	_sizeDk = dkTexture.getSize();
 	_DonkeyKong.setTexture(dkTexture);
 	sf::Vector2f posDk;
@@ -122,7 +124,7 @@ Game::Game()
 	dk->mType = EntityType::donkey;
 	dk->mSize = dkTexture.getSize();
 	EntityManager::mEntities.push_back(dk);
-	
+	*/
 
 	// Draw Lady
 	// TODO

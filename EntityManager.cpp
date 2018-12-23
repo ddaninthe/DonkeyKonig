@@ -43,8 +43,14 @@ void EntityManager::addEntity(const EntityType type, sf::Vector2f position)
 		break;
 	case EntityType::block :
 		break;
-	case EntityType::donkey :
+	case EntityType::donkey: {
+		texture.loadFromFile("Media/Textures/dk.png");
+		position.x = 560.f;
+		position.y = BLOCK_SPACE * 1 - texture.getSize().y;
+		shared_ptr<Entity> ptr = make_shared<Donkey>(texture, position);
+		EntityManager::mEntities.push_back(ptr);
 		break;
+	}
 	case EntityType::ladder :
 		break;
 	case EntityType::lady :
