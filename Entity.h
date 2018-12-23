@@ -22,7 +22,8 @@ public:
 public:
 	static bool checkCollision(const Entity e1, const Entity e2);
 
-	sf::Texture mTexture;
+	// Storing Textures here throws Destructor Exception when game is closed
+	vector<shared_ptr<sf::Texture>> mTextures;
 	sf::Sprite mSprite;
 	sf::Vector2u mSize;
 	EntityType mType;

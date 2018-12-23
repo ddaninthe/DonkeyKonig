@@ -66,6 +66,7 @@ vector<shared_ptr<Ladder>> EntityManager::getLadders()
 	return EntityManager::mLadders;
 }
 
+// Factory Pattern
 void EntityManager::addEntity(const EntityType type, sf::Vector2f position) 
 {
 	sf::Texture texture;

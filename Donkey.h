@@ -10,6 +10,4 @@ public:
 	Donkey(const sf::Texture&, sf::Vector2f);
 	~Donkey();
 
-public:
-	vector<sf::Texture> mOtherTextures;
 };

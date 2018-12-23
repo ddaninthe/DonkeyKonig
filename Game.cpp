@@ -12,10 +12,6 @@ Game::Game()
 	, mStatisticsText()
 	, mStatisticsUpdateTime()
 	, mStatisticsNumFrames(0)
-	, mIsMovingUp(false)
-	, mIsMovingDown(false)
-	, mIsMovingRight(false)
-	, mIsMovingLeft(false)
 {
 	mWindow.setFramerateLimit(160);
 
@@ -69,7 +65,6 @@ Game::Game()
 	// Draw Lady
 	EntityManager::addEntity(EntityType::lady);
 
-
 	// Draw Donkey Kong
 	EntityManager::addEntity(EntityType::donkey);
 
@@ -116,14 +111,15 @@ void Game::processEvents()
 	sf::Event event;
 	while (mWindow.pollEvent(event))
 	{
+		shared_ptr<Mario> player = EntityManager::getPlayer();
 		switch (event.type)
 		{
 		case sf::Event::KeyPressed:
-			handlePlayerInput(event.key.code, true);
+			player->handlePlayerInput(event.key.code, true);
 			break;
 
 		case sf::Event::KeyReleased:
-			handlePlayerInput(event.key.code, false);
+			player->handlePlayerInput(event.key.code, false);
 			break;
 
 		case sf::Event::Closed:
@@ -135,39 +131,7 @@ void Game::processEvents()
 
 void Game::update(sf::Time elapsedTime)
 {
-	shared_ptr<Mario> player = EntityManager::getPlayer();
-	sf::Vector2f playerPosition = player->mSprite.getPosition();
-
-	sf::Vector2f movement(0.f, 0.f);
-	if (mIsMovingUp) {
-		movement.y -= PlayerSpeed;
-	}
-	if (mIsMovingDown) {
-		// Can't go through bottom block
-		if (player->isOnBlock()) {
-			return;
-		}
-		movement.y += PlayerSpeed;
-	}
-	if (mIsMovingLeft) {
-		// Avoid exiting from screen
-		if (playerPosition.x < MIN_X) {
-			return;
-		}
-		else {
-			movement.x -= PlayerSpeed;
-		}
-	}
-	if (mIsMovingRight) {
-		// Avoid exiting from screen
-		if (playerPosition.x > MAX_X) {
-			return;
-		}
-		else {
-			movement.x += PlayerSpeed;
-		}
-	}
-	player->mSprite.move(movement * elapsedTime.asSeconds());
+	Mario::updatePlayer(elapsedTime);
 }
 
 void Game::render()
@@ -205,27 +169,9 @@ void Game::updateStatistics(sf::Time elapsedTime)
 	}
 }
 
-void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
-{
-	if (key == sf::Keyboard::Up)
-		mIsMovingUp = isPressed;
-	else if (key == sf::Keyboard::Down)
-		mIsMovingDown = isPressed;
-	else if (key == sf::Keyboard::Left)
-		mIsMovingLeft = isPressed;
-	else if (key == sf::Keyboard::Right)
-		mIsMovingRight = isPressed;
-
-	if (key == sf::Keyboard::Space)
-	{
-
-	}
-}
-
 void Game::addBarrel() {
 	// TODO
-	/*
-	sf::Sprite sprite;
+	/*sf::Sprite sprite;
 	sprite.setTexture(_TextureBarrel[1]);
 	sprite.setPosition(100.f, 100.f);
 

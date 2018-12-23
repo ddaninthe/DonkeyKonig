@@ -5,7 +5,6 @@
 #define BLOCK_COUNT_Y 5
 #define BLOCK_SPACE 110.f
 #define BARREL_TEXTURE_COUNT 5
-#define TEXTURE_DONKEY_COUNT 7
 #define MIN_X 165
 #define MAX_X 700
 
@@ -25,12 +24,12 @@ private:
 	void update(sf::Time elapsedTime);
 	void render();
 	void addBarrel();
-
 	void updateStatistics(sf::Time elapsedTime);
-	void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
+
+public:
+	static const float		PlayerSpeed;
 
 private:
-	static const float		PlayerSpeed;
 	static const sf::Time	TimePerFrame;
 
 	sf::RenderWindow		mWindow;
@@ -39,10 +38,6 @@ private:
 	sf::Time	mStatisticsUpdateTime;
 
 	std::size_t	mStatisticsNumFrames;
-	bool mIsMovingUp;
-	bool mIsMovingDown;
-	bool mIsMovingRight;
-	bool mIsMovingLeft;
 
 	sf::Texture _TextureBarrel[BARREL_TEXTURE_COUNT];
 	vector<sf::Sprite> _Barrels;
