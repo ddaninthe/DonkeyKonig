@@ -6,7 +6,7 @@
 #define MAX_AIR_TIME 30
 
 enum MarioStates {
-	standing, // 0
+	standing,
 	running1,
 	running2
 };

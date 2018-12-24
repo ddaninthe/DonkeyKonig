@@ -142,6 +142,9 @@ void EntityManager::updateMovingEntities(sf::Time elapsedTime) {
 	shared_ptr<Mario> player = EntityManager::getPlayer();
 	player->updatePlayer(elapsedTime);
 
+	shared_ptr<Donkey> donkey = EntityManager::getDonkey();
+	donkey->updateAnimation(elapsedTime);
+
 	/*for (shared_ptr<Barrel> barrel : EntityManager::getBarrels()) {
 		barrel->updateBarrel(elapsedTime);
 
