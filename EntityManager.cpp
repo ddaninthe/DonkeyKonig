@@ -18,8 +18,13 @@ EntityManager::EntityManager()
 EntityManager::~EntityManager()
 {
 }
-void drawVector(sf::RenderWindow& window, vector<shared_ptr<Entity>> entities) {
-	for (shared_ptr<Entity> entity : entities)
+
+
+void EntityManager::draw(sf::RenderWindow& window) {
+	window.draw(mLady->mSprite);
+	window.draw(mDonkey->mSprite);
+
+	for (shared_ptr<Entity> entity : EntityManager::mBlocks)
 	{
 		if (entity->mEnabled == false)
 		{
@@ -28,18 +33,17 @@ void drawVector(sf::RenderWindow& window, vector<shared_ptr<Entity>> entities) {
 
 		window.draw(entity->mSprite);
 	}
-}
 
+	for (shared_ptr<Entity> entity : EntityManager::mLadders)
+	{
+		if (entity->mEnabled == false)
+		{
+			continue;
+		}
 
-void EntityManager::draw(sf::RenderWindow& window) {
-	
-	window.draw(mLady->mSprite);
-	window.draw(mDonkey->mSprite);
-	/*
-	drawVector(window, ); //Blocks
-	drawVector(window, ); //Ladders
-	drawVector(window, ); //Barrels
-	*/
+		window.draw(entity->mSprite);
+	}
+
 	window.draw(mPlayer->mSprite);
 }
 
