@@ -54,6 +54,8 @@ Game::Game()
 		sf::Vector2f position(110.f + 70.f * (i % 2 == 0 ? 2 : BLOCK_COUNT_X - 1 ), 0.f + BLOCK_SPACE * (i + 1) + sizeBlock);
 		EntityManager::addEntity(EntityType::ladder, position);
 	}
+	// Draw a barrel 
+	EntityManager::addEntity(EntityType::barrel);
 
 	// Draw Mario
 	EntityManager::addEntity(EntityType::player);
