@@ -23,7 +23,6 @@ private:
 	void processEvents();
 	void update(sf::Time elapsedTime);
 	void render();
-	void addBarrel();
 	void updateStatistics(sf::Time elapsedTime);
 
 public:
@@ -39,13 +38,7 @@ private:
 
 	std::size_t	mStatisticsNumFrames;
 
-	sf::Texture _TextureBarrel[BARREL_TEXTURE_COUNT];
-	vector<sf::Sprite> _Barrels;
-	sf::Texture	_TextureBlock;
-	sf::Sprite	_Block[BLOCK_COUNT_X][BLOCK_COUNT_Y];
 	sf::Texture	_TextureWeapon;
 	sf::Sprite	_Weapon;
-	sf::Vector2u _sizeBlock;
-	sf::Vector2u _sizeDk;
 };
 

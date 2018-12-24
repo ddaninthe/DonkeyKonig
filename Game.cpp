@@ -15,21 +15,16 @@ Game::Game()
 {
 	mWindow.setFramerateLimit(160);
 
-	sf::Texture test;
-
 	// Draw blocks
 
-	_TextureBlock.loadFromFile("Media/Textures/Block.png");
-	_sizeBlock = _TextureBlock.getSize();
-
+	sf::Vector2f position;
 	for (int i = 0; i < BLOCK_COUNT_X; i++)
 	{
 		for (int j = 0; j < BLOCK_COUNT_Y; j++)
 		{
-			_Block[i][j].setTexture(_TextureBlock);
-			if (j == 0) {
+			if (j == 0 && i != 0) {
 				// Upper plateform
-				_Block[i][j].setPosition(100.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (j + 1));
+				position = sf::Vector2f(100.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (j + 1));
 				
 			} else if (j % 2 == 0) {
 				// Don't draw first block
@@ -37,25 +32,26 @@ Game::Game()
 					continue;
 				}
 
-				_Block[i][j].setPosition(100.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (j + 1) - i);
+				position = sf::Vector2f(100.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (j + 1) - i);
 			}
 			else {
 				// Don't draw last block
 				if (i == BLOCK_COUNT_X - 1) {
 					continue;
 				}
-				_Block[i][j].setPosition(100.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (j + 1) + i);
+				position = sf::Vector2f(100.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (j + 1) + i);
 			}
 
-			EntityManager::addEntity(EntityType::block, sf::Vector2f(_Block[i][j].getPosition()));
+			EntityManager::addEntity(EntityType::block, position);
 		}
 	}
 
 	// Draw Echelles
 
+	float sizeBlock = EntityManager::getBlocks().front()->mSprite.getGlobalBounds().height;
 	for (int i = 0; i < LADDER_COUNT; i++)
 	{
-		sf::Vector2f position(100.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (i + 1) + _sizeBlock.y);
+		sf::Vector2f position(110.f + 70.f * (i % 2 == 0 ? 2 : BLOCK_COUNT_X - 1 ), 0.f + BLOCK_SPACE * (i + 1) + sizeBlock);
 		EntityManager::addEntity(EntityType::ladder, position);
 	}
 
@@ -68,13 +64,11 @@ Game::Game()
 	// Draw Donkey Kong
 	EntityManager::addEntity(EntityType::donkey);
 
-
 	// Initialize barrels
-	_TextureBarrel[0].loadFromFile("Media/Textures/barrel_front.png");
-	for (int i = 1; i < 5; i++) {
-		_TextureBarrel[i].loadFromFile("Media/Textures/barrel_rolling_" + to_string(i) + ".png");
-	}
-	
+	//sf::Texture text;
+	//text.loadFromFile("Media/Textures/barrel_standing.png");
+
+
 	
 	// Draw Statistic Font 
 
@@ -131,7 +125,7 @@ void Game::processEvents()
 
 void Game::update(sf::Time elapsedTime)
 {
-	Mario::updatePlayer(elapsedTime);
+	EntityManager::updateMovingEntities(elapsedTime);
 }
 
 void Game::render()
@@ -167,13 +161,4 @@ void Game::updateStatistics(sf::Time elapsedTime)
 	{
 		// Handle collision weapon enemies
 	}
-}
-
-void Game::addBarrel() {
-	// TODO
-	/*sf::Sprite sprite;
-	sprite.setTexture(_TextureBarrel[1]);
-	sprite.setPosition(100.f, 100.f);
-
-	_Barrels.push_back(sprite);*/
 }

@@ -1,8 +1,9 @@
 #pragma once
-#include "Entity.h"
+#include "MovingEntity.h"
 
 #define MARIO_WIDTH 27
 #define ANIMATIONS_COUNT 3
+#define MAX_AIR_TIME 30
 
 enum MarioStates {
 	standing, // 0
@@ -13,34 +14,23 @@ enum MarioStates {
 using namespace std;
 
 class Mario :
-	public Entity
+	public MovingEntity
 {
 public:
 	Mario(const sf::Texture&, sf::Vector2f);
 	~Mario();
 
 private:
-	// Whether mario should look to right or left
-	bool mStateRight; // true => right, false => left
-	bool mIsMovingUp;
-	bool mIsMovingDown;
-	bool mIsMovingRight;
-	bool mIsMovingLeft;
+	float mTimeInAir;
 	bool mJumping;
-	int mAnimationState;
+	bool mIsMovingUp;
 
-	void updateAnimation();
 	void hitGround();
+	bool checkBlocksCollision();
 
 public: 
-	float mTimeInAir;
-
-	static const float maxTimeInAir;
-
-	static void updatePlayer(const sf::Time elapsedTime);
+	void updatePlayer(const sf::Time elapsedTime);
 	void move(sf::Vector2f movement);
 	void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
-	bool checkBlocksCollision();
-	bool isOnBlock();
 };
 

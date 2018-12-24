@@ -23,6 +23,7 @@ private:
 
 public:
 	static void draw(sf::RenderWindow& window);
+	static void updateMovingEntities(sf::Time elapsedTime);
 
 	static shared_ptr<Mario> getPlayer();
 	static shared_ptr<Donkey> getDonkey();

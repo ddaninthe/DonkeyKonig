@@ -82,7 +82,7 @@ void EntityManager::addEntity(const EntityType type, sf::Vector2f position)
 	}
 	case EntityType::donkey: {
 		texture.loadFromFile("Media/Textures/dk.png");
-		position.x = 560.f;
+		position.x = 530.f;
 		position.y = BLOCK_SPACE * 1 - texture.getSize().y;
 		shared_ptr<Donkey> ptr = make_shared<Donkey>(texture, position);
 		EntityManager::mDonkey = ptr;
@@ -112,5 +112,19 @@ void EntityManager::addEntity(const EntityType type, sf::Vector2f position)
 	}
 	default : 
 		throw invalid_argument("Bad argument : " + type);
+	}
+}
+
+void EntityManager::updateMovingEntities(sf::Time elapsedTime) {
+	shared_ptr<Mario> player = EntityManager::getPlayer();
+	player->updatePlayer(elapsedTime);
+
+	/*for (shared_ptr<Barrel> barrel : EntityManager::getBarrels()) {
+		barrel->updateBarrel(elapsedTime);
+	}*/
+
+	if (Entity::checkCollision(*player, *getLady())) {
+		// Game finished
+		// TODO
 	}
 }

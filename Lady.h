@@ -6,5 +6,8 @@ class Lady :
 {
 public:
 	Lady(const sf::Texture&, sf::Vector2f);
-	~Lady();
+	~Lady() { };
+
+public: 
+	void ladySaved();
 };

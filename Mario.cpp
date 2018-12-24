@@ -2,11 +2,8 @@
 #include "Mario.h"
 #include "EntityManager.h"
 
-const float Mario::maxTimeInAir = 30;
-
-Mario::Mario(const sf::Texture& texture, sf::Vector2f position) :
-	mIsMovingLeft(false), mIsMovingRight(false), mIsMovingDown(false), mIsMovingUp(false), mJumping(false), mTimeInAir(0)
-	, Entity(texture, position, EntityType::player)
+Mario::Mario(const sf::Texture& texture, sf::Vector2f position) : mJumping(false), mIsMovingUp(false), mTimeInAir(0)
+	, MovingEntity(texture, position, EntityType::player, MARIO_WIDTH)
 {
 	mStateRight = true;
 	mAnimationState = MarioStates::standing;
@@ -39,42 +36,17 @@ bool Mario::checkBlocksCollision() {
 	return false;
 }
 
-// True if mario steps on a block
-bool Mario::isOnBlock() {
-	sf::FloatRect currentArea = mSprite.getGlobalBounds();
-
-	sf::Vector2f bottomLeft = mSprite.getPosition();
-	bottomLeft.y += currentArea.height;
-	bottomLeft.x += currentArea.width - MARIO_WIDTH;
-
-	sf::Vector2f bottomRight(bottomLeft);
-	bottomRight.x += MARIO_WIDTH;
-
-	for (shared_ptr<Block> block : EntityManager::getBlocks()) {
-		sf::Sprite blockSprite = block->mSprite;
-		sf::FloatRect blockArea = blockSprite.getGlobalBounds();
-		
-		// Mario is on block
-		if (blockArea.contains(bottomLeft) || blockArea.contains(bottomRight)) {
-			float yBlock = blockSprite.getPosition().y;
-			// Avoid Mario steps within the block
-			return yBlock + 2 > bottomLeft.y;
-		}
-	}
-
-	return false;
-}
-
 void Mario::move(sf::Vector2f movement) {
 	// TODO
 }
 
 void Mario::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
 {
-	cout << (key == sf::Keyboard::Left ? "left" : "right") << ": " << isPressed << endl;
-
-	if (!mIsMovingDown && (key == sf::Keyboard::Up || key == sf::Keyboard::Space)) {
-		mIsMovingUp = isPressed;
+	if (key == sf::Keyboard::Up || key == sf::Keyboard::Space) {
+		mAnimationState = MarioStates::running1;
+		if (!mIsMovingDown) {
+			mIsMovingUp = isPressed;
+		}
 	}
 	if (key == sf::Keyboard::Left) {
 		mIsMovingLeft = isPressed;
@@ -96,22 +68,25 @@ void Mario::updatePlayer(const sf::Time elapsedTime) {
 	shared_ptr<Mario> player = EntityManager::getPlayer();
 
 	sf::Vector2f playerPosition = player->mSprite.getPosition();
+	sf::Vector2f movement(0.f, 0.f);
 
 	if (player->mJumping) {
 		player->mTimeInAir++;
 		player->mAnimationState = MarioStates::running1; // Jump animation
+	} 
+	// Gravity
+	else if (!player->isOnBlock()) {
+		movement.y += Game::PlayerSpeed;
 	}
 
-	sf::Vector2f movement(0.f, 0.f);
-	if (player->mTimeInAir < Mario::maxTimeInAir && (player->mIsMovingUp || player->mJumping)) {
+	if (player->mTimeInAir < MAX_AIR_TIME && (player->mIsMovingUp || player->mJumping)) {
 		player->mJumping = true;
 		movement.y -= Game::PlayerSpeed;
 	}
-	if (player->mIsMovingDown || player->mTimeInAir > Mario::maxTimeInAir) {
+	if (player->mIsMovingDown || player->mTimeInAir > MAX_AIR_TIME) {
 		// Can't go through bottom block
 		if (player->isOnBlock()) {
 			player->hitGround();
-			cout << "Hitting: " << player->mAnimationState << endl;
 			return;
 		}
 		movement.y += Game::PlayerSpeed;
@@ -137,7 +112,7 @@ void Mario::updatePlayer(const sf::Time elapsedTime) {
 	player->mSprite.move(movement * elapsedTime.asSeconds());
 }
 
-void Mario::updateAnimation() {
+void MovingEntity::updateAnimation() {
 	int indexTexture = mStateRight ? 0 : ANIMATIONS_COUNT;
 	indexTexture += mAnimationState;
 	mSprite.setTexture(*mTextures.at(indexTexture));
