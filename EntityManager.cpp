@@ -8,6 +8,7 @@ shared_ptr<Donkey> EntityManager::mDonkey;
 shared_ptr<Lady> EntityManager::mLady;
 vector<shared_ptr<Block>> EntityManager::mBlocks;
 vector<shared_ptr<Ladder>> EntityManager::mLadders;
+vector<shared_ptr<Barrel>> EntityManager::mBarrels;
 
 EntityManager::EntityManager()
 {
@@ -66,13 +67,25 @@ vector<shared_ptr<Ladder>> EntityManager::getLadders()
 	return EntityManager::mLadders;
 }
 
+vector<shared_ptr<Barrel>> EntityManager::getBarrels()
+{
+	return EntityManager::mBarrels;
+}
+
+
 // Factory Pattern
 void EntityManager::addEntity(const EntityType type, sf::Vector2f position) 
 {
 	sf::Texture texture;
 
 	switch (type) {
-	case EntityType::barrel : 
+	case EntityType::barrel: {
+		position.x = 520.f;
+		position.y = BLOCK_SPACE - texture.getSize().y;
+		texture.loadFromFile("Media/Textures/barrel_rolling_1.png");
+		shared_ptr<Block> ptr = make_shared<Block>(texture, position);
+		EntityManager::mBlocks.push_back(ptr);
+	}
 		break;
 	case EntityType::block: {
 		texture.loadFromFile("Media/Textures/block.png");
