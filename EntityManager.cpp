@@ -23,7 +23,7 @@ void EntityManager::draw(sf::RenderWindow& window) {
 	window.draw(mLady->mSprite);
 	window.draw(mDonkey->mSprite);
 
-	for (std::shared_ptr<Block> entity : EntityManager::mBlocks)
+	for (shared_ptr<Block> entity : EntityManager::mBlocks)
 	{
 		if (entity->mEnabled == false)
 		{
@@ -33,7 +33,7 @@ void EntityManager::draw(sf::RenderWindow& window) {
 		window.draw(entity->mSprite);
 	}
 
-	for (std::shared_ptr<Ladder> entity : EntityManager::mLadders)
+	for (shared_ptr<Ladder> entity : EntityManager::mLadders)
 	{
 		if (entity->mEnabled == false)
 		{
@@ -83,7 +83,7 @@ void EntityManager::addEntity(const EntityType type, sf::Vector2f position)
 	case EntityType::donkey: {
 		texture.loadFromFile("Media/Textures/dk.png");
 		position.x = 530.f;
-		position.y = BLOCK_SPACE * 1 - texture.getSize().y;
+		position.y = BLOCK_SPACE - texture.getSize().y;
 		shared_ptr<Donkey> ptr = make_shared<Donkey>(texture, position);
 		EntityManager::mDonkey = ptr;
 		break;
@@ -97,7 +97,7 @@ void EntityManager::addEntity(const EntityType type, sf::Vector2f position)
 	case EntityType::lady: {
 		texture.loadFromFile("Media/Textures/lade_l_help.png");
 		position.x = 100.f + 560.f;
-		position.y = BLOCK_SPACE * 1 - texture.getSize().y;
+		position.y = BLOCK_SPACE - texture.getSize().y;
 		shared_ptr<Lady> ptr = make_shared<Lady>(texture, position);
 		EntityManager::mLady = ptr;
 		break;
@@ -121,10 +121,17 @@ void EntityManager::updateMovingEntities(sf::Time elapsedTime) {
 
 	/*for (shared_ptr<Barrel> barrel : EntityManager::getBarrels()) {
 		barrel->updateBarrel(elapsedTime);
+
+		if (Entity::checkCollison(*player, *barrel)) {
+			// Game lost
+			// TODO
+		}
 	}*/
 
-	if (Entity::checkCollision(*player, *getLady())) {
-		// Game finished
+	shared_ptr<Lady> lady = EntityManager::getLady();
+	if (Entity::checkCollision(*player, *lady)) {
+		// Game won
+		lady->ladySaved();
 		// TODO
 	}
 }

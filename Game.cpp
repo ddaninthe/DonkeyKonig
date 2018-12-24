@@ -64,12 +64,13 @@ Game::Game()
 	// Draw Donkey Kong
 	EntityManager::addEntity(EntityType::donkey);
 
-	// Initialize barrels
-	//sf::Texture text;
-	//text.loadFromFile("Media/Textures/barrel_standing.png");
+	// Standing barrel
+	sf::Texture texture;
+	texture.loadFromFile("Media/Textures/barrel_standing.png");
+	position = sf::Vector2f(615.f, BLOCK_SPACE - texture.getSize().y);
+	decorations.push_back(make_shared<Entity>(texture, position, EntityType::barrel));
 
 
-	
 	// Draw Statistic Font 
 
 	mFont.loadFromFile("Media/Sansation.ttf");
@@ -131,6 +132,10 @@ void Game::update(sf::Time elapsedTime)
 void Game::render()
 {
 	mWindow.clear();
+
+	for (shared_ptr<Entity> decoration : decorations) {
+		mWindow.draw(decoration->mSprite);
+	}
 
 	EntityManager::draw(mWindow);
 

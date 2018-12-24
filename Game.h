@@ -31,6 +31,7 @@ public:
 private:
 	static const sf::Time	TimePerFrame;
 
+
 	sf::RenderWindow		mWindow;
 	sf::Font	mFont;
 	sf::Text	mStatisticsText;
@@ -38,7 +39,8 @@ private:
 
 	std::size_t	mStatisticsNumFrames;
 
-	sf::Texture	_TextureWeapon;
-	sf::Sprite	_Weapon;
+	vector<shared_ptr<Entity>> decorations;
+	sf::Texture	mTextureWeapon;
+	sf::Sprite	mWeapon;
 };
 
