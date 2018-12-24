@@ -12,6 +12,16 @@ MovingEntity::MovingEntity(const sf::Texture& texture, sf::Vector2f position, En
 }
 
 
+bool MovingEntity::checkBlocksCollision() {
+	for (shared_ptr<Block> block : EntityManager::getBlocks()) {
+		if (Entity::checkCollision(*this, *block)) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
 // True if Entity steps on a block
 bool MovingEntity::isOnBlock() {
 	sf::FloatRect currentArea = mSprite.getGlobalBounds();
@@ -36,4 +46,32 @@ bool MovingEntity::isOnBlock() {
 	}
 
 	return false;
+}
+
+void MovingEntity::hitGround() {
+	switch (mType) {
+	case EntityType::player: {
+		Mario & player = static_cast<Mario&>(*this);
+		Mario::hitGround(make_shared<Mario>(player));
+		break;
+	}
+	case EntityType::barrel:
+		cout << "Not yet implemented" << endl;
+		break;
+	default:
+		cout << "Unknown MovingEntity: " << mType << endl;
+	}
+}
+
+void MovingEntity::move(sf::Vector2f movement) {
+	mSprite.move(movement);
+
+	// TODO: fix shivers
+	if (movement.y == 0 && movement.x != 0) {
+		if (checkBlocksCollision() && isOnBlock()) {
+			mSprite.move(sf::Vector2f(0.f, -1.f));
+			hitGround();
+
+		}
+	}
 }

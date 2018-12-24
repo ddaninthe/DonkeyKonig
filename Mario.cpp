@@ -26,20 +26,6 @@ Mario::~Mario()
 {
 }
 
-bool Mario::checkBlocksCollision() {
-	for (shared_ptr<Block> block : EntityManager::getBlocks()) {
-		if (Entity::checkCollision(*this, *block)) {
-			return true;
-		}
-	}
-
-	return false;
-}
-
-void Mario::move(sf::Vector2f movement) {
-	// TODO
-}
-
 void Mario::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
 {
 	if (key == sf::Keyboard::Up || key == sf::Keyboard::Space) {
@@ -86,7 +72,7 @@ void Mario::updatePlayer(const sf::Time elapsedTime) {
 	if (player->mIsMovingDown || player->mTimeInAir > MAX_AIR_TIME) {
 		// Can't go through bottom block
 		if (player->isOnBlock()) {
-			player->hitGround();
+			Mario::hitGround(player);
 			return;
 		}
 		movement.y += Game::PlayerSpeed;
@@ -109,7 +95,7 @@ void Mario::updatePlayer(const sf::Time elapsedTime) {
 			movement.x += Game::PlayerSpeed;
 		}
 	}
-	player->mSprite.move(movement * elapsedTime.asSeconds());
+	this->move(movement * elapsedTime.asSeconds());
 }
 
 void MovingEntity::updateAnimation() {
@@ -119,10 +105,15 @@ void MovingEntity::updateAnimation() {
 }
 
 // Reset parameters when Mario hits/touches the ground
-void Mario::hitGround() {
-	mAnimationState = MarioStates::standing;
-	mTimeInAir = 0;
-	mJumping = false;
+void Mario::hitGround(const shared_ptr<Mario>& player) {
+	player->mAnimationState = MarioStates::standing;
+	player->mTimeInAir = 0;
+	player->mJumping = false;
 
-	updateAnimation();
+	player->updateAnimation();
+}
+
+bool Mario::isOnLadder() {
+	// TODO
+	return false;
 }
