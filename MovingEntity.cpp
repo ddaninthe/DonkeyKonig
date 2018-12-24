@@ -41,7 +41,7 @@ bool MovingEntity::isOnBlock() {
 		if (blockArea.contains(bottomLeft) || blockArea.contains(bottomRight)) {
 			float yBlock = blockSprite.getPosition().y;
 			// Avoid Mario steps within the block
-			return yBlock + 2 > bottomLeft.y;
+			return yBlock + 3 > bottomLeft.y;
 		}
 	}
 
@@ -69,9 +69,8 @@ void MovingEntity::move(sf::Vector2f movement) {
 	// TODO: fix shivers
 	if (movement.y == 0 && movement.x != 0) {
 		if (checkBlocksCollision() && isOnBlock()) {
-			mSprite.move(sf::Vector2f(0.f, -1.f));
+			mSprite.move(sf::Vector2f(0.f, -1.2f));
 			hitGround();
-
 		}
 	}
 }

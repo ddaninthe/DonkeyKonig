@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Donkey.h"
+#include "EntityManager.h"
 
 
 Donkey::Donkey(const sf::Texture& texture, sf::Vector2f position) :
@@ -54,5 +55,5 @@ void Donkey::updateAnimation(sf::Time elapsedTime) {
 void Donkey::addBarrel() {
 	mThrowBarrel = false;
 	cout << "Roll Roll Roll" << endl;
-	// TODO
+	//EntityManager::addEntity(EntityType::barrel);
 }

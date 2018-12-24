@@ -65,7 +65,13 @@ void Mario::updatePlayer(const sf::Time elapsedTime) {
 		movement.y += Game::PlayerSpeed;
 	}
 
-	if (player->mTimeInAir < MAX_AIR_TIME && (player->mIsMovingUp || player->mJumping)) {
+	// Ladder
+	if (player->mIsMovingUp && isOnLadder()) {
+		movement.y = 0 - Game::PlayerSpeed;
+		player->mJumping = false;
+		player->mTimeInAir = 0;
+	}
+	else if (player->mTimeInAir < MAX_AIR_TIME && (player->mIsMovingUp || player->mJumping)) {
 		player->mJumping = true;
 		movement.y -= Game::PlayerSpeed;
 	}
@@ -114,6 +120,10 @@ void Mario::hitGround(const shared_ptr<Mario>& player) {
 }
 
 bool Mario::isOnLadder() {
-	// TODO
+	for (shared_ptr<Ladder> ladder : EntityManager::getLadders()) {
+		if (Entity::checkCollision(*this, *ladder)) {
+			return true;
+		}
+	}
 	return false;
 }

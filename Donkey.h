@@ -1,7 +1,7 @@
 #pragma once
 #include "Entity.h"
 
-#define TIME_PER_ANIMATION 1500
+#define TIME_PER_ANIMATION 800
 
 using namespace std;
 
