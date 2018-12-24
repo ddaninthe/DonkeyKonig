@@ -20,7 +20,7 @@ EntityManager::~EntityManager()
 }
 
 void EntityManager::draw(sf::RenderWindow& window) {
-	window.draw(mPlayer->mSprite);
+	
 	window.draw(mLady->mSprite);
 	window.draw(mDonkey->mSprite);
 
@@ -43,6 +43,16 @@ void EntityManager::draw(sf::RenderWindow& window) {
 
 		window.draw(entity->mSprite);
 	}
+	for (shared_ptr<Barrel> entity : EntityManager::mBarrels)
+	{
+		if (entity->mEnabled == false)
+		{
+			continue;
+		}
+
+		window.draw(entity->mSprite);
+	}
+	window.draw(mPlayer->mSprite);
 }
 
 shared_ptr<Mario> EntityManager::getPlayer() {
@@ -80,11 +90,11 @@ void EntityManager::addEntity(const EntityType type, sf::Vector2f position)
 
 	switch (type) {
 	case EntityType::barrel: {
-		position.x = 520.f;
-		position.y = BLOCK_SPACE - texture.getSize().y;
 		texture.loadFromFile("Media/Textures/barrel_rolling_1.png");
-		shared_ptr<Block> ptr = make_shared<Block>(texture, position);
-		EntityManager::mBlocks.push_back(ptr);
+		position.x = 500.f;
+		position.y = BLOCK_SPACE - texture.getSize().y;
+		shared_ptr<Barrel> ptr = make_shared<Barrel>(texture, position);
+		EntityManager::mBarrels.push_back(ptr);
 	}
 		break;
 	case EntityType::block: {
