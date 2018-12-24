@@ -25,9 +25,11 @@ private:
 	bool mJumping;
 	bool mIsMovingUp;
 
-
 public: 
-	static void hitGround(const shared_ptr<Mario>& player);
+	// Inherited methods
+	void hitGround();
+	void updateAnimation();
+
 	void updatePlayer(const sf::Time elapsedTime);
 	void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
 	bool isOnLadder();

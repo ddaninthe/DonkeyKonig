@@ -48,20 +48,6 @@ bool MovingEntity::isOnBlock() {
 	return false;
 }
 
-void MovingEntity::hitGround() {
-	switch (mType) {
-	case EntityType::player: {
-		Mario & player = static_cast<Mario&>(*this);
-		Mario::hitGround(make_shared<Mario>(player));
-		break;
-	}
-	case EntityType::barrel:
-		cout << "Not yet implemented" << endl;
-		break;
-	default:
-		cout << "Unknown MovingEntity: " << mType << endl;
-	}
-}
 
 void MovingEntity::move(sf::Vector2f movement) {
 	mSprite.move(movement);

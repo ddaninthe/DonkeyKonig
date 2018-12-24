@@ -55,5 +55,5 @@ void Donkey::updateAnimation(sf::Time elapsedTime) {
 void Donkey::addBarrel() {
 	mThrowBarrel = false;
 	cout << "Roll Roll Roll" << endl;
-	//EntityManager::addEntity(EntityType::barrel);
+	EntityManager::addEntity(EntityType::barrel);
 }

@@ -20,7 +20,8 @@ EntityManager::~EntityManager()
 }
 
 
-void EntityManager::draw(sf::RenderWindow& window) {
+void EntityManager::draw(sf::RenderWindow& window) 
+{
 	window.draw(mLady->mSprite);
 	window.draw(mDonkey->mSprite);
 
@@ -47,33 +48,6 @@ void EntityManager::draw(sf::RenderWindow& window) {
 	window.draw(mPlayer->mSprite);
 }
 
-shared_ptr<Mario> EntityManager::getPlayer() {
-	return EntityManager::mPlayer;
-}
-
-shared_ptr<Lady> EntityManager::getLady() {
-	return EntityManager::mLady;
-}
-
-shared_ptr<Donkey> EntityManager::getDonkey() {
-	return EntityManager::mDonkey;
-}
-
-vector<shared_ptr<Block>> EntityManager::getBlocks()
-{
-	return EntityManager::mBlocks;
-}
-
-vector<shared_ptr<Ladder>> EntityManager::getLadders()
-{
-	return EntityManager::mLadders;
-}
-
-vector<shared_ptr<Barrel>> EntityManager::getBarrels()
-{
-	return EntityManager::mBarrels;
-}
-
 
 // Factory Pattern
 void EntityManager::addEntity(const EntityType type, sf::Vector2f position) 
@@ -87,8 +61,9 @@ void EntityManager::addEntity(const EntityType type, sf::Vector2f position)
 		position.y = BLOCK_SPACE - texture.getSize().y;
 		shared_ptr<Barrel> ptr = make_shared<Barrel>(texture, position);
 		EntityManager::mBarrels.push_back(ptr);
-	}
+		// TODO: draw
 		break;
+	}
 	case EntityType::block: {
 		texture.loadFromFile("Media/Textures/block.png");
 		shared_ptr<Block> ptr = make_shared<Block>(texture, position);
@@ -152,4 +127,33 @@ void EntityManager::updateMovingEntities(sf::Time elapsedTime) {
 		lady->ladySaved();
 		// TODO
 	}
+}
+
+
+// Getters
+shared_ptr<Mario> EntityManager::getPlayer() {
+	return EntityManager::mPlayer;
+}
+
+shared_ptr<Lady> EntityManager::getLady() {
+	return EntityManager::mLady;
+}
+
+shared_ptr<Donkey> EntityManager::getDonkey() {
+	return EntityManager::mDonkey;
+}
+
+vector<shared_ptr<Block>> EntityManager::getBlocks()
+{
+	return EntityManager::mBlocks;
+}
+
+vector<shared_ptr<Ladder>> EntityManager::getLadders()
+{
+	return EntityManager::mLadders;
+}
+
+vector<shared_ptr<Barrel>> EntityManager::getBarrels()
+{
+	return EntityManager::mBarrels;
 }

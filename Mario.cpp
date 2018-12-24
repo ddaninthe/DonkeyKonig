@@ -78,7 +78,7 @@ void Mario::updatePlayer(const sf::Time elapsedTime) {
 	if (player->mIsMovingDown || player->mTimeInAir > MAX_AIR_TIME) {
 		// Can't go through bottom block
 		if (player->isOnBlock()) {
-			Mario::hitGround(player);
+			hitGround();
 			return;
 		}
 		movement.y += Game::PlayerSpeed;
@@ -104,19 +104,19 @@ void Mario::updatePlayer(const sf::Time elapsedTime) {
 	this->move(movement * elapsedTime.asSeconds());
 }
 
-void MovingEntity::updateAnimation() {
+void Mario::updateAnimation() {
 	int indexTexture = mStateRight ? 0 : ANIMATIONS_COUNT;
 	indexTexture += mAnimationState;
 	mSprite.setTexture(*mTextures.at(indexTexture));
 }
 
 // Reset parameters when Mario hits/touches the ground
-void Mario::hitGround(const shared_ptr<Mario>& player) {
-	player->mAnimationState = MarioStates::standing;
-	player->mTimeInAir = 0;
-	player->mJumping = false;
+void Mario::hitGround() {
+	mAnimationState = MarioStates::standing;
+	mTimeInAir = 0;
+	mJumping = false;
 
-	player->updateAnimation();
+	updateAnimation();
 }
 
 bool Mario::isOnLadder() {
