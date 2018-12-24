@@ -9,7 +9,8 @@ enum EntityType
 	ladder,
 	barrel,
 	lady,
-	donkey
+	donkey,
+	coin
 };
 
 class Entity

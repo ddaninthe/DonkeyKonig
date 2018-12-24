@@ -3,6 +3,7 @@
 #include "Lady.h"
 #include "Donkey.h"
 #include "Barrel.h"
+#include "Coin.h"
 #include "Block.h"
 #include "Ladder.h"
 #include "Game.h"
@@ -22,6 +23,7 @@ private:
 	static vector<shared_ptr<Block>> mBlocks;
 	static vector<shared_ptr<Ladder>> mLadders;
 	static vector<shared_ptr<Barrel>> mBarrels;
+	static vector<shared_ptr<Coin>> mCoins;
 
 public:
 	static void draw(sf::RenderWindow& window);
@@ -33,6 +35,7 @@ public:
 	static vector<shared_ptr<Block>> getBlocks();
 	static vector<shared_ptr<Ladder>> getLadders();
 	static vector<shared_ptr<Barrel>> getBarrels();
+	static vector<shared_ptr<Coin>> getCoins();
 
 	static void addEntity(const EntityType, sf::Vector2f position = sf::Vector2f(0, 0));
 };

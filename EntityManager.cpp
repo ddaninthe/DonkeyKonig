@@ -9,6 +9,8 @@ shared_ptr<Lady> EntityManager::mLady;
 vector<shared_ptr<Block>> EntityManager::mBlocks;
 vector<shared_ptr<Ladder>> EntityManager::mLadders;
 vector<shared_ptr<Barrel>> EntityManager::mBarrels;
+vector<shared_ptr<Coin>> EntityManager::mCoins;
+
 
 EntityManager::EntityManager()
 {
@@ -35,6 +37,16 @@ void EntityManager::draw(sf::RenderWindow& window) {
 	}
 
 	for (shared_ptr<Entity> entity : EntityManager::mLadders)
+	{
+		if (entity->mEnabled == false)
+		{
+			continue;
+		}
+
+		window.draw(entity->mSprite);
+	}
+
+	for (shared_ptr<Entity> entity : EntityManager::mCoins)
 	{
 		if (entity->mEnabled == false)
 		{
@@ -74,6 +86,10 @@ vector<shared_ptr<Barrel>> EntityManager::getBarrels()
 	return EntityManager::mBarrels;
 }
 
+vector<shared_ptr<Coin>> EntityManager::getCoins()
+{
+	return EntityManager::mCoins;
+}
 
 // Factory Pattern
 void EntityManager::addEntity(const EntityType type, sf::Vector2f position) 
@@ -81,6 +97,12 @@ void EntityManager::addEntity(const EntityType type, sf::Vector2f position)
 	sf::Texture texture;
 
 	switch (type) {
+	case EntityType::coin: {
+		texture.loadFromFile("Media/Textures/coin.png");
+		shared_ptr<Coin> ptr = make_shared<Coin>(texture, position);
+		EntityManager::mCoins.push_back(ptr);
+	}
+							 break;
 	case EntityType::barrel: {
 		texture.loadFromFile("Media/Textures/barrel_rolling_1.png");
 		position.x = 500.f;

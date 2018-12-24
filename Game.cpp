@@ -47,13 +47,21 @@ Game::Game()
 	}
 
 	// Draw Echelles
-
 	float sizeBlock = EntityManager::getBlocks().front()->mSprite.getGlobalBounds().height;
 	for (int i = 0; i < LADDER_COUNT; i++)
 	{
 		sf::Vector2f position(110.f + 70.f * (i % 2 == 0 ? 2 : BLOCK_COUNT_X - 1 ), 0.f + BLOCK_SPACE * (i + 1) + sizeBlock);
 		EntityManager::addEntity(EntityType::ladder, position);
 	}
+
+	//Draw Coin
+	for (int i = 0; i < COIN_COUNT; i++)
+	{
+		sf::Vector2f position(110.f + 100.f * (i % 2 == 0 ? 2 : BLOCK_COUNT_X - 1), 30.f + BLOCK_SPACE * (i + 1) + sizeBlock);
+		EntityManager::addEntity(EntityType::coin, position);
+	}
+	
+
 	// Draw a barrel 
 	EntityManager::addEntity(EntityType::barrel);
 
