@@ -30,8 +30,4 @@ public:
 	EntityType mType;
 
 	bool mEnabled = true;
-
-	// Enemy only
-	bool mBarrelLeftToRight = true;
-	int mTimes = 0;
 };

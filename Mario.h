@@ -25,13 +25,14 @@ private:
 	bool mJumping;
 	bool mIsMovingUp;
 
-public: 
-	// Inherited methods
-	void hitGround();
-	void updateAnimation();
-
+public:
 	void updatePlayer(const sf::Time elapsedTime);
 	void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
 	bool isOnLadder();
+
+	// Inherited methods
+	void hitGround();
+	void updateAnimation(const sf::Time ellapsedTime = sf::Time());
+	void move(sf::Vector2f movement);
 };
 

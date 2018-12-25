@@ -9,7 +9,10 @@ enum DonkeyStates {
 	front,
 	takeRight,
 	handBarrel,
-	throwLeft
+	throwLeft,
+	happy1,
+	happy2,
+	lose
 };
 
 class Donkey :
@@ -21,11 +24,13 @@ public:
 
 private:
 	bool mThrowBarrel;
+	bool mHappy;
 	int mAnimationState;
 	float mAnimationTime;
 
 	void addBarrel();
 
 public:
+	void finish(bool playerWon);
 	void updateAnimation(sf::Time elapsedTime);
 };

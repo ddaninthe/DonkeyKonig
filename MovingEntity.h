@@ -11,9 +11,9 @@ public:
 
 private:
 	const float mEntityWidth;
-	bool checkBlocksCollision();
 
 protected:
+	bool checkBlocksCollision();
 	// Whether Entity should go to right or left
 	bool mStateRight; // true => right, false => left
 	bool mIsMovingDown;
@@ -22,10 +22,13 @@ protected:
 
 	int mAnimationState;
 
-	virtual void updateAnimation() = 0;
 	virtual void hitGround() = 0;
 
-	void move(sf::Vector2f movement);
+	virtual void move(sf::Vector2f movement) = 0;
 	bool isOnBlock();
+
+public:
+	virtual void updateAnimation(const sf::Time elapsedTime) = 0;
+
 };
 

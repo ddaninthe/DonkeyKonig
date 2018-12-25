@@ -3,6 +3,7 @@
 
 using namespace std;
 
+shared_ptr<Entity> EntityManager::barrelDestructor;
 shared_ptr<Mario> EntityManager::mPlayer;
 shared_ptr<Donkey> EntityManager::mDonkey;
 shared_ptr<Lady> EntityManager::mLady;
@@ -21,42 +22,46 @@ EntityManager::~EntityManager()
 {
 }
 
-
-void EntityManager::draw(sf::RenderWindow& window) 
+void EntityManager::draw(sf::RenderWindow & window) 
 {
 	window.draw(mLady->mSprite);
+	window.draw(barrelDestructor->mSprite);
+
+	for (shared_ptr<Entity> entity : EntityManager::mBlocks) {
+		if (entity->mEnabled == false) {
+			continue;
+		}
+		window.draw(entity->mSprite);
+	}
+
+	for (shared_ptr<Entity> entity : EntityManager::mLadders) {
+		if (entity->mEnabled == false) {
+			continue;
+		}
+		window.draw(entity->mSprite);
+	}
+
+	for (shared_ptr<Entity> entity : EntityManager::mCoins)	{
+		if (entity->mEnabled == false) {
+			continue;
+		}
+		window.draw(entity->mSprite);
+	}
+
+	for (shared_ptr<Entity> entity : EntityManager::mCoins) {
+		if (entity->mEnabled == false) {
+			continue;
+		}
+		window.draw(entity->mSprite);
+	}
+
+	for (shared_ptr<Entity> entity : EntityManager::mBarrels) {
+		if (entity->mEnabled == false) {
+			continue;
+		}
+		window.draw(entity->mSprite);
+	}
 	window.draw(mDonkey->mSprite);
-
-	for (shared_ptr<Entity> entity : EntityManager::mBlocks)
-	{
-		if (entity->mEnabled == false)
-		{
-			continue;
-		}
-
-		window.draw(entity->mSprite);
-	}
-
-	for (shared_ptr<Entity> entity : EntityManager::mLadders)
-	{
-		if (entity->mEnabled == false)
-		{
-			continue;
-		}
-
-		window.draw(entity->mSprite);
-	}
-
-	for (shared_ptr<Entity> entity : EntityManager::mCoins)
-	{
-		if (entity->mEnabled == false)
-		{
-			continue;
-		}
-
-		window.draw(entity->mSprite);
-	}
-
 	window.draw(mPlayer->mSprite);
 }
 
@@ -71,15 +76,12 @@ void EntityManager::addEntity(const EntityType type, sf::Vector2f position)
 		texture.loadFromFile("Media/Textures/coin.png");
 		shared_ptr<Coin> ptr = make_shared<Coin>(texture, position);
 		EntityManager::mCoins.push_back(ptr);
+		break;
 	}
-							 break;
 	case EntityType::barrel: {
 		texture.loadFromFile("Media/Textures/barrel_rolling_1.png");
-		position.x = 500.f;
-		position.y = BLOCK_SPACE - texture.getSize().y;
 		shared_ptr<Barrel> ptr = make_shared<Barrel>(texture, position);
 		EntityManager::mBarrels.push_back(ptr);
-		// TODO: draw
 		break;
 	}
 	case EntityType::block: {
@@ -112,7 +114,7 @@ void EntityManager::addEntity(const EntityType type, sf::Vector2f position)
 	}
 	case EntityType::player: {
 		texture.loadFromFile("Media/Textures/mario_r_1.png");
-		position.x = 100.f + 70.f;
+		position.x = 205.f;
 		position.y = BLOCK_SPACE * 5 - texture.getSize().y;
 		shared_ptr<Mario> ptr = make_shared<Mario>(texture, position);
 		EntityManager::mPlayer = ptr;
@@ -125,25 +127,45 @@ void EntityManager::addEntity(const EntityType type, sf::Vector2f position)
 
 void EntityManager::updateMovingEntities(sf::Time elapsedTime) {
 	shared_ptr<Mario> player = EntityManager::getPlayer();
-	player->updatePlayer(elapsedTime);
+	if (!Game::isFinished()) player->updatePlayer(elapsedTime);
 
-	shared_ptr<Donkey> donkey = EntityManager::getDonkey();
-	donkey->updateAnimation(elapsedTime);
+	EntityManager::mDonkey->updateAnimation(elapsedTime);
 
-	/*for (shared_ptr<Barrel> barrel : EntityManager::getBarrels()) {
-		barrel->updateBarrel(elapsedTime);
+	for (shared_ptr<Barrel> barrel : EntityManager::getBarrels()) {
+		barrel->updateAnimation(elapsedTime);
 
-		if (Entity::checkCollison(*player, *barrel)) {
+		if (Entity::checkCollision(*player, *barrel)) {
 			// Game lost
-			// TODO
+			mDonkey->finish(false);
+			Game::Score = -1;
 		}
-	}*/
 
-	shared_ptr<Lady> lady = EntityManager::getLady();
-	if (Entity::checkCollision(*player, *lady)) {
+		if (Entity::checkCollision(*barrel, *barrelDestructor)) {
+			barrel->reset();
+		}
+	}
+
+	for (shared_ptr<Coin> coin : EntityManager::mCoins) {
+		if (Entity::checkCollision(*player, *coin)) {
+			coin->mSprite.setPosition(1000, 1000); // out of map
+			Game::Score += 300;
+		}
+	}
+
+	if (Entity::checkCollision(*player, *EntityManager::mLady)) {
 		// Game won
-		lady->ladySaved();
-		// TODO
+		mDonkey->finish(true);
+		EntityManager::mLady->ladySaved();
+		Game::Score = 100000;
+	}
+}
+
+void EntityManager::addRollingBarrel() {
+	for (shared_ptr<Barrel> barrel : mBarrels) {
+		if (!barrel->isDisplayed()) {
+			barrel->appear();
+			break;
+		}
 	}
 }
 
@@ -174,4 +196,9 @@ vector<shared_ptr<Ladder>> EntityManager::getLadders()
 vector<shared_ptr<Barrel>> EntityManager::getBarrels()
 {
 	return EntityManager::mBarrels;
+}
+
+vector<shared_ptr<Coin>> EntityManager::getCoins()
+{
+	return EntityManager::mCoins;
 }

@@ -26,9 +26,11 @@ private:
 	static vector<shared_ptr<Coin>> mCoins;
 
 public:
-	static void draw(sf::RenderWindow& window);
+	static void addRollingBarrel();
+	static void draw(sf::RenderWindow & window);
 	static void updateMovingEntities(sf::Time elapsedTime);
 
+	static shared_ptr<Entity> barrelDestructor;
 	static shared_ptr<Mario> getPlayer();
 	static shared_ptr<Donkey> getDonkey();
 	static shared_ptr<Lady> getLady();

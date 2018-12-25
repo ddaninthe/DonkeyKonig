@@ -86,7 +86,7 @@ void Mario::updatePlayer(const sf::Time elapsedTime) {
 	if (player->mIsMovingLeft) {
 		// Avoid exiting from screen
 		if (playerPosition.x < MIN_X) {
-			return;
+			if (movement.x < 0) movement.x = 0.f;
 		}
 		else {
 			movement.x -= Game::PlayerSpeed;
@@ -95,7 +95,7 @@ void Mario::updatePlayer(const sf::Time elapsedTime) {
 	if (player->mIsMovingRight) {
 		// Avoid exiting from screen
 		if (playerPosition.x > MAX_X) {
-			return;
+			if (movement.x > 0) movement.x = 0.f;
 		}
 		else {
 			movement.x += Game::PlayerSpeed;
@@ -104,7 +104,8 @@ void Mario::updatePlayer(const sf::Time elapsedTime) {
 	this->move(movement * elapsedTime.asSeconds());
 }
 
-void Mario::updateAnimation() {
+// Parameter not used here
+void Mario::updateAnimation(const sf::Time ellapsedTime) {
 	int indexTexture = mStateRight ? 0 : ANIMATIONS_COUNT;
 	indexTexture += mAnimationState;
 	mSprite.setTexture(*mTextures.at(indexTexture));
@@ -126,4 +127,15 @@ bool Mario::isOnLadder() {
 		}
 	}
 	return false;
+}
+
+void Mario::move(sf::Vector2f movement) {
+	mSprite.move(movement);
+
+	// TODO: fix shivers
+	if (movement.y == 0 && movement.x != 0) {
+		if (checkBlocksCollision() && isOnBlock()) {
+			mSprite.move(sf::Vector2f(0.f, -1.2f));
+		}
+	}
 }

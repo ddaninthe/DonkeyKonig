@@ -5,15 +5,20 @@
 
 const float Game::PlayerSpeed = 100.f;
 const sf::Time Game::TimePerFrame = sf::seconds(1.f / 60.f);
+int Game::Score = 0;
+bool Game::GameFinished = false;
 
 Game::Game()
 	: mWindow(sf::VideoMode(840, 600), "Donkey Kong 1981", sf::Style::Close)
 	, mFont()
 	, mStatisticsText()
+	, mScoreText()
+	, mGameText()
 	, mStatisticsUpdateTime()
 	, mStatisticsNumFrames(0)
 {
 	mWindow.setFramerateLimit(160);
+
 
 	// Draw blocks
 
@@ -50,21 +55,17 @@ Game::Game()
 	float sizeBlock = EntityManager::getBlocks().front()->mSprite.getGlobalBounds().height;
 	for (int i = 0; i < LADDER_COUNT; i++)
 	{
-		sf::Vector2f position(110.f + 70.f * (i % 2 == 0 ? 2 : BLOCK_COUNT_X - 1 ), 0.f + BLOCK_SPACE * (i + 1) + sizeBlock);
+		sf::Vector2f position(110.f + 70.f * (i % 2 == 0 ? 2 : BLOCK_COUNT_X - 1), 0.f + BLOCK_SPACE * (i + 1) + sizeBlock);
 		EntityManager::addEntity(EntityType::ladder, position);
 	}
 
-	//Draw Coin
+	//Draw Coins
 	for (int i = 0; i < COIN_COUNT; i++)
 	{
-		sf::Vector2f position(110.f + 100.f * (i % 2 == 0 ? 2 : BLOCK_COUNT_X - 1), 30.f + BLOCK_SPACE * (i + 1) + sizeBlock);
+		sf::Vector2f position(110.f + 70.f * (i % 2 == 0 ? 3 : BLOCK_COUNT_X - 2), 30.f + BLOCK_SPACE * (i + 1) + sizeBlock);
 		EntityManager::addEntity(EntityType::coin, position);
 	}
 	
-
-	// Draw a barrel 
-	EntityManager::addEntity(EntityType::barrel);
-
 	// Draw Mario
 	EntityManager::addEntity(EntityType::player);
 
@@ -74,11 +75,23 @@ Game::Game()
 	// Draw Donkey Kong
 	EntityManager::addEntity(EntityType::donkey);
 
+	// Draw barrels
+	for (int i = 0; i < MAX_BARREL; i++) {
+		EntityManager::addEntity(EntityType::barrel);
+	}
+
+
 	// Standing barrel
 	sf::Texture texture;
 	texture.loadFromFile("Media/Textures/barrel_standing.png");
-	position = sf::Vector2f(615.f, BLOCK_SPACE - texture.getSize().y);
+	position = sf::Vector2f(610.f, BLOCK_SPACE - texture.getSize().y);
 	decorations.push_back(make_shared<Entity>(texture, position, EntityType::barrel));
+
+	// Barrel Destructor
+	sf::Texture textureDestructor;
+	textureDestructor.loadFromFile("Media/Textures/barrel_standing.png"); // TODO: change image
+	position = sf::Vector2f(170.f, BLOCK_SPACE * 5 - textureDestructor.getSize().y);
+	EntityManager::barrelDestructor = make_shared<Entity>(textureDestructor, position, EntityType::barrel);
 
 
 	// Draw Statistic Font 
@@ -88,6 +101,17 @@ Game::Game()
 	mStatisticsText.setFont(mFont);
 	mStatisticsText.setPosition(5.f, 5.f);
 	mStatisticsText.setCharacterSize(10);
+
+	// Draw Score
+	mScoreText.setString("Score: 0");
+	mScoreText.setFont(mFont);
+	mScoreText.setPosition(230.f, 10.f);
+	mScoreText.setCharacterSize(30);
+
+	mGameText.setFont(mFont);
+	mGameText.setPosition(240.f, 230.f);
+	mGameText.setCharacterSize(100);
+	mGameText.setFillColor(sf::Color(255, 16, 0));
 }
 
 void Game::run()
@@ -120,13 +144,15 @@ void Game::processEvents()
 		switch (event.type)
 		{
 		case sf::Event::KeyPressed:
-			player->handlePlayerInput(event.key.code, true);
+			if (Score >= 0) {
+				player->handlePlayerInput(event.key.code, true);
+			}
 			break;
-
 		case sf::Event::KeyReleased:
-			player->handlePlayerInput(event.key.code, false);
+			if (Score >= 0) {
+				player->handlePlayerInput(event.key.code, false);
+			}
 			break;
-
 		case sf::Event::Closed:
 			mWindow.close();
 			break;
@@ -150,6 +176,8 @@ void Game::render()
 	EntityManager::draw(mWindow);
 
 	mWindow.draw(mStatisticsText);
+	mWindow.draw(mScoreText);
+	mWindow.draw(mGameText);
 	mWindow.display();
 }
 
@@ -157,6 +185,19 @@ void Game::updateStatistics(sf::Time elapsedTime)
 {
 	mStatisticsUpdateTime += elapsedTime;
 	mStatisticsNumFrames += 1;
+
+	if (Score < 0) {
+		mGameText.setString("GAME OVER");
+		GameFinished = true;
+	}
+	else if (Score >= 100000) {
+		mGameText.setString("VICTORY");
+		mGameText.setFillColor(sf::Color(17, 255, 73));
+		GameFinished = true;
+	}
+	else {
+		mScoreText.setString("Score: " + to_string(Game::Score));
+	}
 
 	if (mStatisticsUpdateTime >= sf::seconds(1.0f))
 	{
@@ -176,4 +217,8 @@ void Game::updateStatistics(sf::Time elapsedTime)
 	{
 		// Handle collision weapon enemies
 	}
+}
+
+bool Game::isFinished() {
+	return GameFinished;
 }
