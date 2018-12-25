@@ -89,7 +89,7 @@ Game::Game()
 
 	// Barrel Destructor
 	sf::Texture textureDestructor;
-	textureDestructor.loadFromFile("Media/Textures/barrel_standing.png"); // TODO: change image
+	textureDestructor.loadFromFile("Media/Textures/barrel_destructor.png");
 	position = sf::Vector2f(170.f, BLOCK_SPACE * 5 - textureDestructor.getSize().y);
 	EntityManager::barrelDestructor = make_shared<Entity>(textureDestructor, position, EntityType::barrel);
 
