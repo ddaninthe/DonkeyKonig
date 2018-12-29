@@ -6,6 +6,7 @@
 const float Game::PlayerSpeed = 100.f;
 const sf::Time Game::TimePerFrame = sf::seconds(1.f / 60.f);
 int Game::Score = 0;
+int Game::Life = 3;
 bool Game::GameFinished = false;
 
 Game::Game()
@@ -13,6 +14,7 @@ Game::Game()
 	, mFont()
 	, mStatisticsText()
 	, mScoreText()
+	, mLifeText()
 	, mGameText()
 	, mStatisticsUpdateTime()
 	, mStatisticsNumFrames(0)
@@ -93,9 +95,7 @@ Game::Game()
 	position = sf::Vector2f(170.f, BLOCK_SPACE * 5 - textureDestructor.getSize().y);
 	EntityManager::barrelDestructor = make_shared<Entity>(textureDestructor, position, EntityType::barrel);
 
-
 	// Draw Statistic Font 
-
 	mFont.loadFromFile("Media/Sansation.ttf");
 	mStatisticsText.setString("Welcome to Donkey Kong 1981");
 	mStatisticsText.setFont(mFont);
@@ -105,8 +105,14 @@ Game::Game()
 	// Draw Score
 	mScoreText.setString("Score: 0");
 	mScoreText.setFont(mFont);
-	mScoreText.setPosition(230.f, 10.f);
+	mScoreText.setPosition(210.f, 10.f);
 	mScoreText.setCharacterSize(30);
+
+	// Draw Life
+	mLifeText.setString("Life: 3");
+	mLifeText.setFont(mFont);
+	mLifeText.setPosition(365.f, 10.f);
+	mLifeText.setCharacterSize(30);
 
 	mGameText.setFont(mFont);
 	mGameText.setPosition(240.f, 230.f);
@@ -177,6 +183,7 @@ void Game::render()
 
 	mWindow.draw(mStatisticsText);
 	mWindow.draw(mScoreText);
+	mWindow.draw(mLifeText);
 	mWindow.draw(mGameText);
 	mWindow.display();
 }
@@ -197,6 +204,7 @@ void Game::updateStatistics(sf::Time elapsedTime)
 	}
 	else {
 		mScoreText.setString("Score: " + to_string(Game::Score));
+		mLifeText.setString("Life: " + to_string(Game::Life));
 	}
 
 	if (mStatisticsUpdateTime >= sf::seconds(1.0f))

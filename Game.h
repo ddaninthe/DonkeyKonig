@@ -29,6 +29,7 @@ private:
 public:
 	static const float		PlayerSpeed;
 	static int Score;
+	static int Life;
 	static bool isFinished();
 
 private:
@@ -40,6 +41,7 @@ private:
 	sf::Text	mStatisticsText;
 	sf::Time	mStatisticsUpdateTime;
 	sf::Text	mScoreText;
+	sf::Text	mLifeText;
 	sf::Text	mGameText; // Lost or won
 
 	std::size_t	mStatisticsNumFrames;
@@ -48,4 +50,3 @@ private:
 	sf::Texture	mTextureWeapon;
 	sf::Sprite	mWeapon;
 };
-
