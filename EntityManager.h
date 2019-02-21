@@ -38,6 +38,7 @@ public:
 	static vector<shared_ptr<Ladder>> getLadders();
 	static vector<shared_ptr<Barrel>> getBarrels();
 	static vector<shared_ptr<Coin>> getCoins();
+	static bool cheatCodeEnabled;
 
 	static void addEntity(const EntityType, sf::Vector2f position = sf::Vector2f(0, 0));
 };

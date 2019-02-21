@@ -18,6 +18,7 @@ Game::Game()
 	, mGameText()
 	, mStatisticsUpdateTime()
 	, mStatisticsNumFrames(0)
+	, mInput("")
 {
 	mWindow.setFramerateLimit(160);
 
@@ -149,7 +150,39 @@ void Game::processEvents()
 		shared_ptr<Mario> player = EntityManager::getPlayer();
 		switch (event.type)
 		{
-		case sf::Event::KeyPressed:
+		case sf::Event::KeyPressed:				
+			switch (event.key.code)
+			{
+			case sf::Keyboard::M: 
+				mInput += 'M';
+				break;
+			case sf::Keyboard::A:
+				if (mInput.length() == 1) {
+					mInput += 'A';
+				}
+				else mInput = "";
+				break;
+			case sf::Keyboard::R:
+				if (mInput.length() == 2) {
+					mInput += 'A';
+				}
+				else mInput = "";
+				break;				
+			case sf::Keyboard::I:
+				if (mInput.length() == 3) {
+					mInput += 'A';
+				}
+				else mInput = "";
+				break;				
+			case sf::Keyboard::O:
+				if (mInput.length() == 4) {
+					EntityManager::cheatCodeEnabled = true;
+				}
+				else mInput = "";
+				break;
+			default:
+				mInput = "";
+			}
 			if (Score >= 0) {
 				player->handlePlayerInput(event.key.code, true);
 			}

@@ -8,6 +8,7 @@
 #define BLOCK_SPACE 110.f
 #define MIN_X 165
 #define MAX_X 700
+#define CHEAT_CODE "MARIO"
 
 #include "Entity.h"
 
@@ -35,6 +36,7 @@ public:
 private:
 	static bool GameFinished;
 	static const sf::Time	TimePerFrame;
+	string mInput;
 
 	sf::RenderWindow	mWindow;
 	sf::Font	mFont;

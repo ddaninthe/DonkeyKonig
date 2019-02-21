@@ -11,7 +11,7 @@ vector<shared_ptr<Block>> EntityManager::mBlocks;
 vector<shared_ptr<Ladder>> EntityManager::mLadders;
 vector<shared_ptr<Barrel>> EntityManager::mBarrels;
 vector<shared_ptr<Coin>> EntityManager::mCoins;
-
+bool EntityManager::cheatCodeEnabled = false;
 
 EntityManager::EntityManager()
 {
@@ -134,7 +134,7 @@ void EntityManager::updateMovingEntities(sf::Time elapsedTime) {
 	for (shared_ptr<Barrel> barrel : EntityManager::getBarrels()) {
 		barrel->updateAnimation(elapsedTime);
 
-		if (Entity::checkCollision(*player, *barrel)) {
+		if (!EntityManager::cheatCodeEnabled && Entity::checkCollision(*player, *barrel)) {
 			// Game lost
 			if (Game::Life == 0) {
 				mDonkey->finish(false);
