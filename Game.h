@@ -32,6 +32,7 @@ public:
 	static int Score;
 	static int Life;
 	static bool isFinished();
+	static bool Restart;
 
 private:
 	static bool GameFinished;
@@ -45,6 +46,7 @@ private:
 	sf::Text	mScoreText;
 	sf::Text	mLifeText;
 	sf::Text	mGameText; // Lost or won
+	sf::Text	mRetryText;
 
 	std::size_t	mStatisticsNumFrames;
 

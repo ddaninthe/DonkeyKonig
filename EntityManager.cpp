@@ -136,14 +136,20 @@ void EntityManager::updateMovingEntities(sf::Time elapsedTime) {
 
 		if (!EntityManager::cheatCodeEnabled && Entity::checkCollision(*player, *barrel)) {
 			// Game lost
-			if (Game::Life == 0) {
+			if (Game::Life == 1) {
+				Game::Life--;
 				mDonkey->finish(false);
-				Game::Score = -1;
-			}
-			else(Game::Life= Game::Life -1);
-		}
 
-		if (Entity::checkCollision(*barrel, *barrelDestructor)) {
+				// Destroy all barrels
+				for (shared_ptr<Barrel> barrel : EntityManager::getBarrels()) {
+					barrel->reset();
+				}
+			}
+			else if (Game::Life > 0) {
+				Game::Life--;
+				barrel->reset();
+			}
+		} else if (Entity::checkCollision(*barrel, *barrelDestructor)) {
 			barrel->reset();
 		}
 	}

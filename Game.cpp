@@ -5,9 +5,10 @@
 
 const float Game::PlayerSpeed = 100.f;
 const sf::Time Game::TimePerFrame = sf::seconds(1.f / 60.f);
-int Game::Score = 0;
-int Game::Life = 3;
-bool Game::GameFinished = false;
+int Game::Score;
+int Game::Life;
+bool Game::GameFinished;
+bool Game::Restart;
 
 Game::Game()
 	: mWindow(sf::VideoMode(840, 600), "Donkey Kong 1981", sf::Style::Close)
@@ -16,12 +17,18 @@ Game::Game()
 	, mScoreText()
 	, mLifeText()
 	, mGameText()
+	, mRetryText()
 	, mStatisticsUpdateTime()
 	, mStatisticsNumFrames(0)
 	, mInput("")
 {
 	mWindow.setFramerateLimit(160);
 
+	// Initialize static values
+	Game::Score = 0;
+	Game::Life = 3;
+	Game::GameFinished = false;
+	Game::Restart = false;
 
 	// Draw blocks
 
@@ -96,8 +103,9 @@ Game::Game()
 	position = sf::Vector2f(170.f, BLOCK_SPACE * 5 - textureDestructor.getSize().y);
 	EntityManager::barrelDestructor = make_shared<Entity>(textureDestructor, position, EntityType::barrel);
 
-	// Draw Statistic Font 
+
 	mFont.loadFromFile("Media/Sansation.ttf");
+	// Draw Statistic Font 
 	mStatisticsText.setString("Welcome to Donkey Kong 1981");
 	mStatisticsText.setFont(mFont);
 	mStatisticsText.setPosition(5.f, 5.f);
@@ -115,10 +123,16 @@ Game::Game()
 	mLifeText.setPosition(365.f, 10.f);
 	mLifeText.setCharacterSize(30);
 
+	// Victory or Game Over
 	mGameText.setFont(mFont);
-	mGameText.setPosition(240.f, 230.f);
+	mGameText.setPosition(230.f, 230.f);
 	mGameText.setCharacterSize(100);
 	mGameText.setFillColor(sf::Color(255, 16, 0));
+
+	// Retry Game
+	mRetryText.setFont(mFont);
+	mRetryText.setPosition(300.f, 400.f);
+	mRetryText.setCharacterSize(30);
 }
 
 void Game::run()
@@ -180,6 +194,12 @@ void Game::processEvents()
 				}
 				else mInput = "";
 				break;
+			case sf::Keyboard::Enter:
+				if (isFinished()) {
+					Game::Restart = true;
+					mWindow.close();
+				}
+				break;
 			default:
 				mInput = "";
 			}
@@ -218,6 +238,7 @@ void Game::render()
 	mWindow.draw(mScoreText);
 	mWindow.draw(mLifeText);
 	mWindow.draw(mGameText);
+	mWindow.draw(mRetryText);
 	mWindow.display();
 }
 
@@ -226,12 +247,15 @@ void Game::updateStatistics(sf::Time elapsedTime)
 	mStatisticsUpdateTime += elapsedTime;
 	mStatisticsNumFrames += 1;
 
-	if (Score < 0) {
+	if (Game::Life == 0) {
 		mGameText.setString("GAME OVER");
+		mLifeText.setString("Life: 0");
+		mRetryText.setString("Press 'Enter' to Retry");
 		GameFinished = true;
 	}
 	else if (Score >= 100000) {
 		mGameText.setString("VICTORY");
+		mRetryText.setString("Press 'Enter' to Retry");
 		mGameText.setFillColor(sf::Color(17, 255, 73));
 		GameFinished = true;
 	}
@@ -248,15 +272,6 @@ void Game::updateStatistics(sf::Time elapsedTime)
 
 		mStatisticsUpdateTime -= sf::seconds(1.0f);
 		mStatisticsNumFrames = 0;
-	}
-
-	//
-	// Handle collision
-	//
-
-	if (mStatisticsUpdateTime >= sf::seconds(0.050f))
-	{
-		// Handle collision weapon enemies
 	}
 }
 
