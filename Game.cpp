@@ -17,6 +17,7 @@ Game::Game()
 	, mScoreText()
 	, mLifeText()
 	, mGameText()
+	, mCheatCode()
 	, mRetryText()
 	, mStatisticsUpdateTime()
 	, mStatisticsNumFrames(0)
@@ -123,6 +124,13 @@ Game::Game()
 	mLifeText.setPosition(365.f, 10.f);
 	mLifeText.setCharacterSize(30);
 
+	// Cheat code ON or OFF
+	mCheatCode.setString("Cheat Code OFF");
+	mCheatCode.setFont(mFont);
+	mCheatCode.setPosition(620.f, 20.f);
+	mCheatCode.setCharacterSize(15);
+	mCheatCode.setFillColor(sf::Color(255, 16, 0));
+
 	// Victory or Game Over
 	mGameText.setFont(mFont);
 	mGameText.setPosition(230.f, 230.f);
@@ -133,6 +141,8 @@ Game::Game()
 	mRetryText.setFont(mFont);
 	mRetryText.setPosition(300.f, 400.f);
 	mRetryText.setCharacterSize(30);
+
+	
 }
 
 void Game::run()
@@ -158,6 +168,8 @@ void Game::run()
 
 void Game::processEvents()
 {
+	const sf::Time ellapsedTime;
+
 	sf::Event event;
 	while (mWindow.pollEvent(event))
 	{
@@ -189,8 +201,20 @@ void Game::processEvents()
 				else mInput = "";
 				break;				
 			case sf::Keyboard::O:
+				
 				if (mInput.length() == 4) {
-					EntityManager::cheatCodeEnabled = true;
+					if (EntityManager::cheatCodeEnabled == false) {
+						EntityManager::cheatCodeEnabled = true;
+						mCheatCode.setFillColor(sf::Color(17, 255, 73));
+						mCheatCode.setString("Cheat Code ON");
+					}
+					else {
+						EntityManager::cheatCodeEnabled = false;
+						mCheatCode.setFillColor(sf::Color(255, 16, 0));
+						mCheatCode.setString("Cheat Code OFF");
+
+					}
+					mInput = "";
 				}
 				else mInput = "";
 				break;
@@ -238,6 +262,7 @@ void Game::render()
 	mWindow.draw(mScoreText);
 	mWindow.draw(mLifeText);
 	mWindow.draw(mGameText);
+	mWindow.draw(mCheatCode);
 	mWindow.draw(mRetryText);
 	mWindow.display();
 }

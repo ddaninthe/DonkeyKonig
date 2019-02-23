@@ -47,6 +47,7 @@ private:
 	sf::Text	mLifeText;
 	sf::Text	mGameText; // Lost or won
 	sf::Text	mRetryText;
+	sf::Text	mCheatCode; // ON or OFF
 
 	std::size_t	mStatisticsNumFrames;
 
