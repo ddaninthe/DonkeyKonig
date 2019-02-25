@@ -11,6 +11,7 @@
 #define CHEAT_CODE "MARIO"
 
 #include "Entity.h"
+#include <SFML/Audio.hpp>
 
 using namespace std;
 
@@ -39,6 +40,8 @@ private:
 	static const sf::Time	TimePerFrame;
 	string mInput;
 
+	sf::SoundBuffer	mBuffer;
+	sf::Sound	mSound;
 	sf::RenderWindow	mWindow;
 	sf::Font	mFont;
 	sf::Text	mStatisticsText;

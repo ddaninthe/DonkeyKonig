@@ -166,6 +166,11 @@ void EntityManager::updateMovingEntities(sf::Time elapsedTime) {
 		mDonkey->finish(true);
 		EntityManager::mLady->ladySaved();
 		Game::Score = 100000;
+
+		// Destroy all barrels
+		for (shared_ptr<Barrel> barrel : EntityManager::getBarrels()) {
+			barrel->reset();
+		}
 	}
 }
 

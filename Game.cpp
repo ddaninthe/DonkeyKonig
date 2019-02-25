@@ -22,6 +22,8 @@ Game::Game()
 	, mStatisticsUpdateTime()
 	, mStatisticsNumFrames(0)
 	, mInput("")
+	, mBuffer()
+	, mSound()
 {
 	mWindow.setFramerateLimit(160);
 
@@ -30,6 +32,7 @@ Game::Game()
 	Game::Life = 3;
 	Game::GameFinished = false;
 	Game::Restart = false;
+	EntityManager::cheatCodeEnabled = false;
 
 	// Draw blocks
 
@@ -142,7 +145,12 @@ Game::Game()
 	mRetryText.setPosition(300.f, 400.f);
 	mRetryText.setCharacterSize(30);
 
-	
+	// Play song
+	mBuffer.loadFromFile("Media/Sounds/music.wav");
+	mSound.setBuffer(mBuffer);
+	mSound.setLoop(true);
+	mSound.setVolume(100);
+	mSound.play();
 }
 
 void Game::run()
